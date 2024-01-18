@@ -1,0 +1,13 @@
+package schema;
+
+public class Deportista {
+	private int id_deportista;
+	private String nombre;
+	private int edad;
+	private String nacionalidad;
+	private String equipoActual;
+	
+	public Deportista() {
+		
+	}
+}

@@ -1,0 +1,9 @@
+package schema;
+
+public class Equipo {
+	private String nombre;
+	private int id;
+	private int numJugadores;
+	private int jornadasJugadas;
+	private int clasificacion;
+}

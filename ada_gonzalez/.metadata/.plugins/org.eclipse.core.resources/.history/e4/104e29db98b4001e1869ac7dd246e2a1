@@ -1,0 +1,12 @@
+package util;
+
+import entities.Equipo;
+
+public class CargarDatos {
+	
+	public void loadDataInDB() {
+		for(Equipo equipo:DataSource.equipos) {
+			Equipo.insert(equipo);
+		}
+	}
+}

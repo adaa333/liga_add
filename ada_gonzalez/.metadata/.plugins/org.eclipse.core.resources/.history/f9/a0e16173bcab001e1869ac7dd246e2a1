@@ -1,0 +1,8 @@
+package schema;
+
+public class Deportista {
+	private String nombre;
+	private int edad;
+	private String nacionalidad;
+	private String equipoActual;
+}

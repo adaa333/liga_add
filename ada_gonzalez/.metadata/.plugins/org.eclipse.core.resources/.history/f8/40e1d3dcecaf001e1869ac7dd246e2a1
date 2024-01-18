@@ -1,0 +1,10 @@
+package entities;
+
+import java.sql.Date;
+
+public class Competicion {
+	
+	private Date fechaCreacion;
+	private int numEquipos;
+	private int jornadas=0;
+}

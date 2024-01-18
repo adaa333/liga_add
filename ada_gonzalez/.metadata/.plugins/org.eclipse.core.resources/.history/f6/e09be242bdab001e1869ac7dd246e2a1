@@ -1,0 +1,20 @@
+package schema;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class Deportista {
+	static AtomicInteger contadorID= new AtomicInteger(001);
+	private int id;
+	private String nombre;
+	private int edad;
+	private String nacionalidad;
+	private String equipoActual;
+	
+	public Deportista(String nombre, int edad, String nacionalidad, String equipoActual) {
+		this.id= contadorID.getAndIncrement();
+		this.nombre=nombre;
+		this.edad=edad;
+		this.nacionalidad=nacionalidad;
+		this.equipoActual=equipoActual;
+	}
+}

@@ -1,0 +1,86 @@
+package demo;
+
+import entities.Deportista;
+import entities.Equipo;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+
+public class SimulacionMain {
+	public static void main(String[] args) {
+		
+		EntityManagerFactory emFactory= Persistence.createEntityManagerFactory("lnhh");
+		EntityManager eManager= emFactory.createEntityManager();
+		
+		eManager.getTransaction().begin();
+	//equipo1
+		Equipo equipo1= new Equipo("Club Hielo Jaca Hockey", "Pabellón de Hielo de Jaca");
+		eManager.persist(equipo1);
+		
+		Deportista centro1= new Deportista("Adrian Aranguren","09/02/1998", "Español", equipo1);
+		eManager.persist(centro1);
+		Deportista goalie1= new Deportista("Raúl Barbo", "12/02/2000", "Español", equipo1);
+		eManager.persist(goalie1);
+		Deportista dd1= new Deportista("Alfred Encinar", "22/07/2003", "Español", equipo1);
+		eManager.persist(dd1);
+		Deportista di1= new Deportista("Guillermo Betrán", "12/10/1985", "Español", equipo1);
+		eManager.persist(di1);
+		Deportista ad1= new Deportista("Jaime Capillas", "13/02/2001", "Español", equipo1);
+		eManager.persist(ad1);
+		Deportista ai1= new Deportista("Pablo Pantoja", "23/09/1996", "Español", equipo1);
+		eManager.persist(ai1);
+		
+		asignarJugadores(equipo1, centro1, goalie1, dd1, di1, ad1, ai1);
+		
+	//equipo2
+		
+		Equipo equipo2= new Equipo("Club Hielo Jaca Hockey", "Pabellón de Hielo de Jaca");
+		eManager.persist(equipo2);
+		
+		Deportista centro2= new Deportista("Bastien Tona", "07/03/1989", "Español", equipo2);
+		eManager.persist(centro2);
+		Deportista goalie2= new Deportista("Riku Törnqvist", "05/05/1998", "Finés", equipo2);
+		eManager.persist(goalie2);
+		Deportista dd2= new Deportista("David Caballero", "07/11/1996", "Español", equipo2);
+		eManager.persist(dd2);
+		Deportista di2= new Deportista("Jorge Piñar", "03/03/1992", "Español",equipo2);
+		eManager.persist(di2);
+		Deportista ad2= new Deportista("Oriol Boronat", "11/05/92", "Español",equipo2);
+		eManager.persist(ad2);
+		Deportista ai2= new Deportista("Pol Piedra", "14/07/1997", "Español", equipo2);
+		eManager.persist(ai2);
+		
+		asignarJugadores(equipo2, centro2, goalie2, dd2, di2, ad2, ai2);
+		
+	//equipo3
+		
+		Equipo equipo3= new Equipo("Club Hielo Jaca Hockey", "Pabellón de Hielo de Jaca");
+		eManager.persist(equipo3);
+		
+		Deportista centro3= new Deportista("Bastien Tona", "07/03/1989", "Español", equipo3);
+		eManager.persist(centro3);
+		Deportista goalie3= new Deportista("Riku Törnqvist", "05/05/1998", "Finés", equipo3);
+		eManager.persist(goalie3);
+		Deportista dd3= new Deportista("David Caballero", "07/11/1996", "Español", equipo3);
+		eManager.persist(dd3);
+		Deportista di3= new Deportista("Jorge Piñar", "03/03/1992", "Español",equipo3);
+		eManager.persist(di3);
+		Deportista ad3= new Deportista("Oriol Boronat", "11/05/92", "Español",equipo3);
+		eManager.persist(ad3);
+		Deportista ai3= new Deportista("Pol Piedra", "14/07/1997", "Español", equipo3);
+		eManager.persist(ai3);
+		
+		
+		eManager.getTransaction().commit();
+	}
+
+	private static void asignarJugadores(Equipo equipo, Deportista centro, Deportista goalie, 
+			Deportista defensaDerecha,Deportista defensaIzquierda, Deportista alaDerecha, Deportista alaIzquierda) {
+		equipo.setCentro(centro.getNombre());
+		equipo.setGoalKeeper(goalie.getNombre());
+		equipo.setAlaDch(alaDerecha.getNombre());
+		equipo.setAlaIzq(alaIzquierda.getNombre());
+		equipo.setDefensaDch(defensaDerecha.getNombre());
+		equipo.setDefensaIzq(defensaIzquierda.getNombre());
+	}
+}

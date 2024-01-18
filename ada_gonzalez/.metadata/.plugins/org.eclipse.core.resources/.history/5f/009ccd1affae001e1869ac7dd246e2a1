@@ -1,0 +1,96 @@
+package entities;
+
+import java.util.Random;
+
+public class Competicion {
+	private int idJornada;
+	private static Equipo equipoLocal;
+	private static Equipo equipoVisitante;
+	private String pista;
+	private static String resultado;
+	
+//getters y setters
+	
+	public int getIdJornada() {
+		return idJornada;
+	}
+
+	public void setIdJornada(int idJornada) {
+		this.idJornada = idJornada;
+	}
+
+	public static Equipo getEquipoLocal() {
+		return equipoLocal;
+	}
+
+	public static void setEquipoLocal(Equipo equipoLocal) {
+		Competicion.equipoLocal = equipoLocal;
+	}
+
+	public static Equipo getEquipoVisitante() {
+		return equipoVisitante;
+	}
+
+	public static void setEquipoVisitante(Equipo equipoVisitante) {
+		Competicion.equipoVisitante = equipoVisitante;
+	}
+
+	public String getPista() {
+		return pista;
+	}
+
+	public void setPista(String pista) {
+		this.pista = pista;
+	}
+
+	public static String getResultado() {
+		return resultado;
+	}
+
+	public static void setResultado(String resultado) {
+		Competicion.resultado = resultado;
+	}
+	
+//constructor
+	public Competicion() {}
+	
+	@SuppressWarnings("static-access")
+	public Competicion(Equipo equipoLocal, Equipo equipoVisitante) {
+		this.equipoLocal=equipoLocal;
+		this.equipoVisitante=equipoVisitante;
+		this.pista=equipoLocal.getPista();
+	}
+	
+	public static void iniciar() {
+		Random rnd = new Random();
+		int ptosEquipoLocal=rnd.nextInt(4);
+		int ptosEquipoVisitante=0;
+		
+		switch (ptosEquipoLocal) {
+		case 0:
+			ptosEquipoVisitante=3;
+			resultado="0-3";
+			break;
+			
+		case 1:
+			ptosEquipoVisitante=2;
+			resultado="1-2";
+			break;
+			
+		case 2:
+			ptosEquipoVisitante=1;
+			resultado="2-1";
+			break;
+			
+		case 3:
+			ptosEquipoVisitante=0;
+			resultado="3-0";
+			break;
+
+		}
+		
+		equipoLocal.setPuntos(equipoLocal.getPuntos()+ptosEquipoLocal);
+		equipoVisitante.setPuntos(equipoVisitante.getPuntos()+ptosEquipoVisitante);
+	}
+
+}

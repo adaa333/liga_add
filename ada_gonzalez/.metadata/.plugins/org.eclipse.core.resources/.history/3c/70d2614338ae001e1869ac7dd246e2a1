@@ -1,0 +1,32 @@
+package demo;
+
+import entities.Deportista;
+import entities.Equipo;
+
+public class SimulacionMain {
+	public static void main(String[] args) {
+		
+		
+		
+		Equipo equipo1= new Equipo("Club Hielo Jaca Hockey", "Pabellón de Hielo de Jaca");
+		
+		Deportista centro1= new Deportista("Adrian Aranguren","09/02/1998", "Español", equipo1.getNombre() );
+		Deportista goalie1= new Deportista("Raúl Barbo", "12/02/2000", "Español", equipo1.getNombre());
+		Deportista dd1= new Deportista("Alfred Encinar", "22/07/2003", "Español", equipo1.getNombre());
+		Deportista di1= new Deportista("Guillermo Betrán", "12/10/1985", "Español", equipo1.getNombre());
+		Deportista ad1= new Deportista("Jaime Capillas", "13/02/2001", "Español", equipo1.getNombre());
+		Deportista ai1= new Deportista("Pablo Pantoja", "23/09/1996", "Español", equipo1.getNombre());
+		
+		asignarJugadores(equipo1, centro1, goalie1, dd1, di1, ai1);
+	}
+
+	private static void asignarJugadores(Equipo equipo1, Deportista centro1, Deportista goalie1, Deportista dd1,
+			Deportista di1, Deportista ai1) {
+		equipo1.setCentro(centro1.getId());
+		equipo1.setGoalKeeper(goalie1.getId());
+		equipo1.setAlaDch(ai1.getId());
+		equipo1.setAlaIzq(ai1.getId());
+		equipo1.setDefensaDch(dd1.getId());
+		equipo1.setDefensaIzq(di1.getId());
+	}
+}

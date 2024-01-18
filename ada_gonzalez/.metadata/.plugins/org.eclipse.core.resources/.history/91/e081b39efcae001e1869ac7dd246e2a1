@@ -1,0 +1,8 @@
+package entities;
+
+public class Competicion {
+	private int idJornada;
+	private Equipo equipoLocal;
+	private Equipo equipoVisitante;
+	private String pista = equipoLocal.getPista();
+}

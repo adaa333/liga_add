@@ -1,10 +1,10 @@
-#Fri Jan 05 10:53:40 CET 2024
+#Thu Jan 18 15:36:46 CET 2024
 a=installed
-c=1
+c=0
 cl=HIBERNATE-MAVEN
 cmp=usage
 ct=jbt
-d=1704448420981
+d=1705588606993
 l=Installed plugins\: HIBERNATE-MAVEN
 s=0
 v=2.2.500

@@ -1,0 +1,57 @@
+package entities;
+
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+@Entity
+@Table (name="COMPETITION")
+public class Competicion {
+
+	@Id
+	@Column (name="NAME")
+	private String nombre;
+	@Column (name="CREATION_DATE")
+	private Date fechaCreacion;
+	@Column (name="TEAMS")
+	private int numEquipos;
+	@Column (name="journeys")
+	private AtomicInteger jornadas=new AtomicInteger(0);
+	
+//getters y setters
+	public String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public Date getFechaCreacion() {
+		return fechaCreacion;
+	}
+	public void setFechaCreacion(Date fechaCreacion) {
+		this.fechaCreacion = fechaCreacion;
+	}
+	public int getNumEquipos() {
+		return numEquipos;
+	}
+	public void setNumEquipos(int numEquipos) {
+		this.numEquipos = numEquipos;
+	}
+	public AtomicInteger getJornadas() {
+		return jornadas;
+	}
+	public void setJornadas(AtomicInteger jornadas) {
+		this.jornadas = jornadas;
+	}
+	
+//constructor
+	public Competicion(String nombre, Date fechaCreacion, int numEquipos) {
+		this.nombre = nombre;
+		this.fechaCreacion = fechaCreacion;
+		this.numEquipos = numEquipos;
+	}
+	
+}

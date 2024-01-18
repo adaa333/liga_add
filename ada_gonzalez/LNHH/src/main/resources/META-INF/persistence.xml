@@ -5,7 +5,7 @@
 	xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence 
              https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">    
              
-	<persistence-unit name="jpamysql">
+	<persistence-unit name="lnhh">
 	
 		<properties>
 		
@@ -13,12 +13,11 @@
 				value="com.mysql.cj.jdbc.Driver" />
 				
 			<property name="jakarta.persistence.jdbc.url"
-				value="jdbc:mysql://localhost:3306/LNHH" />
+				value="jdbc:mysql://localhost:3306/orm_competicion" />
 				
 				
 			<property name="jakarta.persistence.jdbc.user" value="root" />
-			<property name="jakarta.persistence.jdbc.password"
-				value="root" />
+			<property name="jakarta.persistence.jdbc.password" value="root" />
 				
 			<property
 				name="jakarta.persistence.schema-generation.database.action"
@@ -34,5 +33,6 @@
 			
 			
 		</properties>
+		
 	</persistence-unit>
 </persistence> 

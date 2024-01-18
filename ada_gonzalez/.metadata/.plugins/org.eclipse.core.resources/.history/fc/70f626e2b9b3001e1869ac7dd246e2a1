@@ -1,0 +1,11 @@
+package auxiliares;
+
+import java.util.List;
+
+public interface DAO <T, E>{
+	public void insert();
+	public void delete();
+	public List<T> select();
+	public T select(int id);
+	public void asignar(List<E> datos);
+}

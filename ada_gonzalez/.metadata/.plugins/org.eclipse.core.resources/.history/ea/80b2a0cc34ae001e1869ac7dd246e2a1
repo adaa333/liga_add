@@ -1,0 +1,14 @@
+package demo;
+
+import schema.Deportista;
+
+public class SimulacionMain {
+	public static void main(String[] args) {
+		Deportista d1= new Deportista();
+		Deportista d2= new Deportista();
+		Deportista d3= new Deportista();
+		Deportista d4= new Deportista();
+		Deportista d5= new Deportista();
+		Deportista d6= new Deportista();
+	}
+}

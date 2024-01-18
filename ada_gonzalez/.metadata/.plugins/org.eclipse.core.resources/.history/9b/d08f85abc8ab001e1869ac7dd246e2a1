@@ -1,0 +1,56 @@
+package schema;
+
+/**
+ * Esta clase representa a un deportista en la liga, se genera la tabla deportista en la BDD
+ * */
+
+import java.util.concurrent.atomic.AtomicInteger;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
+
+@Table (name="sportsmen")
+public class Deportista {
+	static AtomicInteger contadorID= new AtomicInteger(001);
+	@Column (name="SPORTSMAN_ID")
+	@Id
+	private int id;
+	@Column (name="SPORTSMAN_NAME")
+	private String nombre;
+	@Column (name="BIRTH_DATE")
+	private int edad;
+	@Column (name="NATIONALITY")
+	private String nacionalidad;
+	@Column (name="current_team_number")
+	@ManyToOne (optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private String equipoActual;
+	
+//getters
+	public int getId() {
+		return id;
+	}
+	public String getNombre() {
+		return nombre;
+	}
+	public int getEdad() {
+		return edad;
+	}
+	public String getNacionalidad() {
+		return nacionalidad;
+	}
+	public String getEquipoActual() {
+		return equipoActual;
+	}
+	
+	public Deportista(String nombre, int edad, String nacionalidad, String equipoActual) {
+		this.id= contadorID.getAndIncrement();
+		this.nombre=nombre;
+		this.edad=edad;
+		this.nacionalidad=nacionalidad;
+		this.equipoActual=equipoActual;
+	}
+}
