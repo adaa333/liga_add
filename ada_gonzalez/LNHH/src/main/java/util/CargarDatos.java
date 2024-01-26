@@ -25,19 +25,31 @@ public class CargarDatos {
 		//asignar jugadores del equipo
 			equipo.setJugadores(DataSource.deportistas.get(equipo.getNombre()));
 			
+			for (Deportista deportista: equipo.getJugadores()) {
+				deportista.setEquipoActual(equipo);
+			}
+			
 			equipo.insert(equipo);
 		
 		//insertar patrocinadores
 			
-			for(Patrocinador patrocinador: equipo.getPatrocinadores()) {
-				patrocinador.insert(patrocinador);
+			/*for(Patrocinador patrocinador: equipo.getPatrocinadores()) {
+				if(patrocinador.getIdPatrocinador() != null) {
+					patrocinador.update(patrocinador);
+				}else {
+					patrocinador.insert(patrocinador);
+				}
 			}
 			
 		//insertar jugadores
 			
 			for(Deportista deportista: equipo.getJugadores()) {
-				deportista.insert(deportista);
-			}
+				if(deportista.getId()!=null) {
+					deportista.update(deportista);
+				}else {
+					deportista.insert(deportista);
+				}
+			}*/
 			
 		}
 		

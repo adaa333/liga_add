@@ -23,6 +23,7 @@ public class DataSource {
 			new Equipo("Club de Hielo Huarte", "Palacio de Hielo de Huarte"),
 			new Equipo("Logroño Panthers", "Milenio Club Patín"))
 			);
+	
     @SuppressWarnings("serial")
     static Map<String, List<Deportista>> deportistas = new HashMap<String, List<Deportista>>() {{
             put("Club Hielo Jaca Hockey", new ArrayList<Deportista>(Arrays.asList(

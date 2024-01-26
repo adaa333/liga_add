@@ -1,45 +1,59 @@
 package entities;
 
+import java.util.List;
 import java.util.Random;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import dao.CRUD;
+import dao.DAO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.RollbackException;
 import jakarta.persistence.Table;
+import jakarta.persistence.TransactionRequiredException;
+import util.Manager;
 
 @Entity
 @Table (name="MATCHES")
-public class Partido{
+public class Partido extends CRUD<Partido>{
+	private static Logger logger=LogManager.getLogger(Equipo.class.getName());
+
 	@Id
 	@GeneratedValue (strategy= GenerationType.IDENTITY)
 	@Column (name="MATCH_ID")
-	private int idPartido;
+	private Long idPartido;
 	@JoinColumn (name="LOCAL_TEAM_ID")
-	@OneToOne (optional = false, cascade = CascadeType.ALL)
+	@OneToOne (optional = false, cascade = CascadeType.MERGE)
 	private Equipo equipoLocal;
 	@JoinColumn (name="VISITING_TEAM_ID")
-	@OneToOne (optional = false, cascade = CascadeType.ALL)
+	@OneToOne (optional = false, cascade = CascadeType.MERGE)
 	private Equipo equipoVisitante;
 	@Column (name="RINK")
 	private String pista;
 	@Column (name="OUTCOME")
 	private String resultado;
 	
-	private Jornada jornada;
+	private String jornada;
 	
 //getters y setters
 	
-	public int getIdPartido() {
+	public Long getIdPartido() {
 		return idPartido;
 	}
 
-	public void setIdPartido(int idJornada) {
+	public void setIdPartido(Long idJornada) {
 		this.idPartido = idJornada;
 	}
 
@@ -76,10 +90,10 @@ public class Partido{
 		this.resultado = resultado;
 	}
 	
-	public void setJornada(Jornada jornada) {
+	public void setJornada(String jornada) {
 		this.jornada = jornada;
 	}
-	public Jornada getJornada() {
+	public String getJornada() {
 		return jornada;
 	}
 
@@ -126,5 +140,7 @@ public class Partido{
 		equipoLocal.setPuntos(equipoLocal.getPuntos()+ptosEquipoLocal);
 		equipoVisitante.setPuntos(equipoVisitante.getPuntos()+ptosEquipoVisitante);
 	}
+
+	//DAO
 
 }

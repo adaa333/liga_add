@@ -1,0 +1,129 @@
+package util;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.Metadata;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+import entities.Equipo;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
+import jakarta.persistence.RollbackException;
+
+/**
+ * Esta clase gestiona los EntityManager y las transacciones
+ * 
+ * @author Ada
+ * */
+
+
+public class Manager <T>{
+	private static Logger logger=LogManager.getLogger(Manager.class.getName());
+	
+	private static SessionFactory sessionFactory = buildSessionFactory();
+
+	private static SessionFactory buildSessionFactory() {
+		try {
+			if (sessionFactory == null) {
+				StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
+						.configure("hibernate.cfg.xml").build();
+
+				Metadata metaData = new MetadataSources(standardRegistry).getMetadataBuilder().build();
+
+				sessionFactory = metaData.getSessionFactoryBuilder().build();
+			}
+			return sessionFactory;
+			
+		} catch (Throwable ex) {
+
+			System.err.println("Initial SessionFactory creation failed." + ex);
+
+			throw new ExceptionInInitializerError(ex);
+		}
+	}
+
+	public static SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public static void shutdown() {
+		getSessionFactory().close();
+	}
+	
+	//jpa
+
+	private static EntityManagerFactory emFactory= Persistence.createEntityManagerFactory("lnhh");
+	public static EntityManager eManager=null;
+	private static EntityTransaction transaction=eManager.getTransaction();
+	
+//gestión de transacciones
+	
+	/*public static EntityTransaction beginTransaction() {
+		eManager=emFactory.createEntityManager();
+		if(!transaction.isActive()) {
+			transaction.begin();
+		}else {
+			//change!
+			logger.error("Se intentó iniciar una transacción que ya estaba activa");
+		}
+		return transaction;
+	}
+	
+	public static void endTransaction() {
+		try {
+			transaction.commit();
+		} catch (RollbackException e) {
+			  if (transaction != null && transaction.isActive()) {
+	                transaction.rollback();
+	            }
+	            e.printStackTrace();
+	        } finally {
+	            closeManager();
+		}
+	}
+
+//querys
+	public static Query crearQuery(String sql) {
+		Query query;
+		if(eManager!=null) {
+			query=eManager.createNativeQuery(sql);
+		}else {
+			eManager=emFactory.createEntityManager();
+			query=eManager.createNativeQuery(sql);
+		}
+		return query;
+	}
+	
+	private static void closeManager() {
+		if(eManager != null) {
+        	eManager.close();
+        	eManager=null;
+        }
+	}
+
+	
+	public static void refresh(Object entity) {
+		beginTransaction();	
+		eManager.refresh(entity);
+		endTransaction();
+	}
+	
+	public static void persist(Object entity) {
+		beginTransaction();	
+		eManager.persist(entity);
+		endTransaction();
+	}
+	
+	public static void remove(Object entity) {
+		beginTransaction();	
+		eManager.remove(entity);
+		endTransaction();
+	}*/
+	
+}

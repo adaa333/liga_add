@@ -5,14 +5,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.logging.log4j.*;
+
+import dao.CRUD;
+import dao.DAO;
 import jakarta.persistence.CascadeType;
 
 /**
  * Esta clase representa a un equipo en la liga, se genera la tabla TEAMS en la BDD
+ * 
  * */
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,19 +27,22 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.RollbackException;
 import jakarta.persistence.Table;
-import util.DAO;
+import jakarta.persistence.TransactionRequiredException;
 import util.Manager;
 
 @Entity
 @Table (name="TEAMS")
-public class Equipo implements DAO<Equipo>{
+public class Equipo extends CRUD<Equipo>{
+	private static Logger logger=LogManager.getLogger(Equipo.class.getName());
 	@Column (name="TEAM_NAME")
 	private String nombre;
 	@Id
 	@Column (name="TEAM_ID")
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	@Column (name="RINK")
 	private String pista;
 	/*@Column (name="GOALIE")
@@ -55,7 +65,7 @@ public class Equipo implements DAO<Equipo>{
 	@Column (name="POINTS")
 	private int puntos;
 
-	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany (cascade = CascadeType.MERGE)
     @JoinTable(
         name = "TEAM_SPONSOR",
         joinColumns = @JoinColumn(name = "TEAM_ID"),
@@ -71,10 +81,10 @@ public class Equipo implements DAO<Equipo>{
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getPista() {
@@ -124,24 +134,5 @@ public class Equipo implements DAO<Equipo>{
 	}
 	
 //DAO
-	
-	public void insert(Equipo entity) {
-		Manager.persist(entity);
-		
-	}
-	public void delete(int id) {
-		// TODO Auto-generated method stub
-		
-	}
-	public List<Equipo> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	public Equipo select(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
 	
 }

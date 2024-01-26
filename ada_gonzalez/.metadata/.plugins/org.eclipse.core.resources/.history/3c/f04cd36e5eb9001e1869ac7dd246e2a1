@@ -1,0 +1,197 @@
+package entities;
+
+import java.util.List;
+
+/**
+ * Esta clase representa a un deportista en la liga, se genera la tabla SPORTSMEN en la BDD
+ * */
+import org.apache.logging.log4j.*;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PersistenceException;
+import jakarta.persistence.RollbackException;
+import jakarta.persistence.Table;
+import jakarta.persistence.TransactionRequiredException;
+import util.DAO;
+import util.Manager;
+
+@Entity
+@Table (name="SPORTSMEN")
+public class Deportista implements DAO<Deportista>{
+	
+	private static Logger logger=LogManager.getLogger(Deportista.class.getName());
+
+	
+	@Column (name="SPORTSMAN_ID")
+	@Id
+	@GeneratedValue (strategy=GenerationType.IDENTITY)
+	private int id;
+	
+	@Column (name="SPORTSMAN_NAME")
+	private String nombre;
+	
+	@Column (name="BIRTH_DATE")
+	private String edad;
+	
+	@Column (name="NATIONALITY")
+	private String nacionalidad;
+	
+	@Column (name="POSITION")
+	private String posicion;
+	
+	@JoinColumn (name="current_team_number")
+	@ManyToOne (optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private Equipo equipoActual;
+	
+//getters & setters
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public void setPosicion(String posicion) {
+		this.posicion = posicion;
+	}
+	
+	public String getPosicion() {
+		return posicion;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public String getEdad() {
+		return edad;
+	}
+
+	public void setEdad(String edad) {
+		this.edad = edad;
+	}
+
+	public String getNacionalidad() {
+		return nacionalidad;
+	}
+
+	public void setNacionalidad(String nacionalidad) {
+		this.nacionalidad = nacionalidad;
+	}
+
+	public Equipo getEquipoActual() {
+		return equipoActual;
+	}
+
+	public void setEquipoActual(Equipo equipoActual) {
+		this.equipoActual = equipoActual;
+	}
+	
+//constructor
+	public Deportista(String nombre, String edad, String nacionalidad, Equipo equipoActual) {
+		this.nombre=nombre;
+		this.edad=edad;
+		this.nacionalidad=nacionalidad;
+		this.equipoActual=equipoActual;
+	}
+	
+	public Deportista(String nombre, String edad, String nacionalidad, String posicion) {
+		this.nombre=nombre;
+		this.edad=edad;
+		this.nacionalidad=nacionalidad;
+		this.posicion=posicion;
+	}
+
+	public Deportista() {}
+
+//DAO
+	public void insert(Deportista entity) {
+		try {
+			Manager.persist(entity);
+		} catch (EntityExistsException entityExists) {
+			System.err.println("Entity: "+entity.getNombre()+" already exists");
+			logger.error("Entity: "+entity.getNombre()+" already exists - "+entityExists.getMessage()+"\nCaused by: "+entityExists.getCause());
+		}catch (TransactionRequiredException transactionRequired) {
+			System.err.println(transactionRequired.getMessage());
+			logger.error("Error con la transacción al insertar: "+getNombre()+" - "+transactionRequired.getMessage());
+		}catch (RollbackException rollback) {
+			System.err.println("Error: ha fallado un commit al intentar añadir: "+getNombre()+" de la Tabla SPORTSMEN.");
+			logger.error("Ha fallado un commit al intentar añadir: "+getNombre()+" de la Tabla SPORTSMEN - "+rollback.getMessage());
+		}catch(PersistenceException persistenceFailed) {
+			System.err.println("Flush failed while inserting entity: Deportista-"+getNombre());
+			logger.error("Flush failed while inserting entity: Deportista-"+getNombre()+"\nCaused by: "+persistenceFailed.getCause());
+		}
+
+		logger.info("el deportista "+getNombre()+" se ha insertado en orm_competicion");
+	}
+	public void delete(Deportista entity) {
+		try {
+			Manager.remove(entity);
+			logger.warn("el deportista "+getNombre()+" se ha eliminado de orm_competicion");
+			
+		}catch (TransactionRequiredException transactionRequired) {
+			System.err.println(transactionRequired.getMessage());
+			logger.error("Error con la transacción al eliminar: "+getNombre()+" - "+transactionRequired.getMessage());
+		}catch (RollbackException rollback) {
+			System.err.println("Error: ha fallado un commit al intentar eliminar: "+getNombre()+" de la Tabla SPORTSMEN.");
+			logger.error("Ha fallado un commit al intentar eliminar: "+getNombre()+" de la Tabla SPORTSMEN - "+rollback.getMessage());
+		}catch(PersistenceException persistenceFailed) {
+			System.err.println("Flush failed while deleting entity: Deportista-"+getNombre());
+			logger.error("Flush failed while deleting entity: Deportista-"+getNombre()+"\nCaused by: "+persistenceFailed.getCause());
+		}
+	}
+	@SuppressWarnings("unchecked")
+	public List<Deportista> selectAll() {
+		List<Deportista> resultado=null; 
+		try {
+			Manager.beginTransaction();
+			String sql = "SELECT * FROM SPORTSMEN";
+			resultado = Manager.crearQuery(sql).getResultList();
+			Manager.endTransaction();
+		} catch (IllegalStateException illegalState) {
+			System.err.println("Error con la transacción: "+illegalState.getMessage()+"\nCaused by: "+illegalState.getCause());
+			logger.error("Error con la transacción: "+illegalState.getMessage()+"\nCaused by: "+illegalState.getCause());
+		}
+		return resultado;
+	}
+	public Deportista select(int id) {
+		Manager.beginTransaction();
+		String sql="SELECT * FROM SPORTSMEN WHERE SPORTSMEN_ID=?";
+		Deportista resultado= (Deportista) Manager.crearQuery(sql).setParameter(0, id).getResultList().get(0);
+		Manager.endTransaction();
+		return resultado;
+	}
+	public void update(Deportista entity) {
+		try {
+			Manager.refresh(entity);
+		
+		}catch (EntityNotFoundException entityNotFound) {
+			System.err.println("Entity: "+entity.getNombre()+" already exists");
+			logger.error("Entity: "+entity.getNombre()+" can´t be found - "+entityNotFound.getMessage()+"\nCaused by: "+entityNotFound.getCause()); 
+		
+		}catch (TransactionRequiredException transactionRequired) {
+			System.err.println(transactionRequired.getMessage());
+			logger.error("Error con la transacción al actualizar: "+getNombre()+" - "+transactionRequired.getMessage());
+		}catch(PersistenceException persistenceFailed) {
+			System.err.println("Flush failed while updating entity: Deportista-"+getNombre());
+			logger.error("Flush failed while updating entity: Deportista-"+getNombre()+"\nCaused by: "+persistenceFailed.getCause());
+		}
+		
+	}
+}

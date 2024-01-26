@@ -3,13 +3,14 @@ package entities;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import dao.CRUD;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 @Entity
 @Table (name="COMPETITION")
-public class Competicion {
+public class Competicion extends CRUD<Competicion>{
 
 	@Id
 	@Column (name="NAME")

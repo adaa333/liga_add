@@ -1,0 +1,46 @@
+package util;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+
+import entities.Equipo;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
+
+/**
+ * Esta clase gestiona los EntityManager y las transacciones
+ * 
+ * @author Ada
+ * */
+
+
+public class Manager <T>{
+	private static Logger logger=LogManager.getLogger(Manager.class.getName());
+
+	private static EntityManagerFactory emFactory= Persistence.createEntityManagerFactory("lnhh");
+	public static EntityManager eManager= emFactory.createEntityManager();
+	private static EntityTransaction transaction;
+	
+	public EntityTransaction beginTransaction() {
+		if(!transaction.isActive()) {
+			transaction.begin();
+		}else {
+			logger.error("Se intentó iniciar una transacción que ya estaba activa");
+		}
+		return transaction;
+	}
+	
+	public void endTransaction() {
+		transaction.commit();
+	}
+	
+	public static Query crearQuery(String sql) {
+		return eManager.createNativeQuery(sql);
+	}
+}

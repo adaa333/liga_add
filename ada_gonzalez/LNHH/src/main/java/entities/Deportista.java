@@ -1,11 +1,12 @@
 package entities;
 
-import java.util.List;
 
 /**
  * Esta clase representa a un deportista en la liga, se genera la tabla SPORTSMEN en la BDD
  * */
+import org.apache.logging.log4j.*;
 
+import dao.CRUD;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,17 +17,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import util.DAO;
-import util.Manager;
 
 @Entity
 @Table (name="SPORTSMEN")
-public class Deportista implements DAO<Deportista>{
+public class Deportista extends CRUD<Deportista>{
 	
 	@Column (name="SPORTSMAN_ID")
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
-	private int id;
+	private Long id;
 	
 	@Column (name="SPORTSMAN_NAME")
 	private String nombre;
@@ -41,16 +40,16 @@ public class Deportista implements DAO<Deportista>{
 	private String posicion;
 	
 	@JoinColumn (name="current_team_number")
-	@ManyToOne (optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToOne (optional = false, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	private Equipo equipoActual;
 	
 //getters & setters
 	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
@@ -112,22 +111,5 @@ public class Deportista implements DAO<Deportista>{
 	public Deportista() {}
 
 //DAO
-	public void insert(Deportista obj) {
-		Manager.persist(obj);	
-	}
 
-	public void delete(int id) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public List<Deportista> selectAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Deportista select(int id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

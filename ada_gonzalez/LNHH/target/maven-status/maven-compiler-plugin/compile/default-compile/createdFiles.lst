@@ -1,0 +1,12 @@
+entities\Patrocinador.class
+demo\SimulacionMain.class
+util\DAO.class
+util\Manager.class
+entities\Deportista.class
+entities\Equipo.class
+entities\Jornada.class
+util\DataSource.class
+util\CargarDatos.class
+util\DataSource$1.class
+entities\Competicion.class
+entities\Partido.class

@@ -14,9 +14,9 @@ import jakarta.persistence.Persistence;
 import util.CargarDatos;
 
 public class SimulacionMain {
-	private static final Competicion COMPETICION= new Competicion("Liga Nacional de Hockey Hielo", new Date(1972, 11, 20), 6);
+	private static final Competicion COMPETICION= new Competicion("Liga Nacional de Hockey Hielo", new Date(1972, 11, 20), 7);
 	public static void main(String[] args) {
-		
+		COMPETICION.insert(COMPETICION);
 		CargarDatos.loadDataInDB();
 		
 	/*

@@ -1,0 +1,19 @@
+package util;
+
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.MetadataSources;
+import org.hibernate.boot.registry.StandardServiceRegistry;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.Query;
+
+public class Manager <T>{
+	private static EntityManagerFactory emFactory= Persistence.createEntityManagerFactory("lnhh");
+	public static EntityManager eManager= emFactory.createEntityManager();
+	
+	public Query crearQuery(String sql) {
+		return eManager.createNativeQuery(sql);
+	}
+}
