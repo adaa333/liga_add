@@ -10,13 +10,16 @@ import dao.CRUD;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Query;
 import jakarta.persistence.Table;
+import util.Manager;
 
 @Entity
 @Table (name="SPORTSMEN")
@@ -40,7 +43,7 @@ public class Deportista extends CRUD<Deportista>{
 	private String posicion;
 	
 	@JoinColumn (name="current_team_number")
-	@ManyToOne (optional = false, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+	@ManyToOne (optional = false, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private Equipo equipoActual;
 	
 //getters & setters
@@ -112,4 +115,17 @@ public class Deportista extends CRUD<Deportista>{
 
 //DAO
 
+	public Deportista select(long id) {
+		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
+		  String jpql = "SELECT m FROM MATCHES m WHERE m.id = :id";
+	        Query query = manager.createQuery(jpql, Deportista.class);
+	        query.setParameter("id", id);
+
+	        try {
+	            return (Deportista) query.getSingleResult();
+	        } catch (Exception e) {
+	            System.err.println("Exception");
+	            return null;
+	        }
+	}
 }

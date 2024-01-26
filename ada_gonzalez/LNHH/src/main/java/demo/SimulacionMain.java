@@ -7,11 +7,11 @@ import java.util.Date;
 import entities.Competicion;
 import entities.Deportista;
 import entities.Equipo;
-import entities.Jornada;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import util.CargarDatos;
+import util.Jornada;
 
 public class SimulacionMain {
 	private static final Competicion COMPETICION= new Competicion("Liga Nacional de Hockey Hielo", new Date(1972, 11, 20), 7);

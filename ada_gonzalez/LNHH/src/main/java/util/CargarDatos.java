@@ -11,8 +11,8 @@ public class CargarDatos {
 	
 	public static void loadDataInDB() {
 		for(Equipo equipo:DataSource.equipos) {
+			equipo.insert(equipo);
 			
-		//asignar patrocinadores del equipo
 			List<Patrocinador> patrocinadoresDelEquipo= new ArrayList<Patrocinador>();
 			
 			for(Patrocinador patrocinador: DataSource.patrocinadores) {
@@ -20,39 +20,42 @@ public class CargarDatos {
 					patrocinadoresDelEquipo.add(patrocinador);
 				}
 			}
-			equipo.setPatrocinadores(patrocinadoresDelEquipo);
 			
-		//asignar jugadores del equipo
-			equipo.setJugadores(DataSource.deportistas.get(equipo.getNombre()));
-			
-			for (Deportista deportista: equipo.getJugadores()) {
-				deportista.setEquipoActual(equipo);
-			}
-			
-			equipo.insert(equipo);
-		
-		//insertar patrocinadores
-			
-			/*for(Patrocinador patrocinador: equipo.getPatrocinadores()) {
-				if(patrocinador.getIdPatrocinador() != null) {
+			Equipo equipoRecuperado= equipo.select(equipo.getId());
+			equipoRecuperado.setPatrocinadores(patrocinadoresDelEquipo);
+
+	
+			for(Patrocinador patrocinador: equipoRecuperado.getPatrocinadores()) {
+				patrocinador.getEquipos().add(equipoRecuperado);
+				if(patrocinador.getIdPatrocinador()!=null) {
 					patrocinador.update(patrocinador);
-				}else {
+				}else{
 					patrocinador.insert(patrocinador);
 				}
+				System.out.println(patrocinador.getNombre());
+				
 			}
+			equipoRecuperado.setJugadores(DataSource.deportistas.get(equipo.getNombre()));
+			equipoRecuperado.update(equipoRecuperado);
 			
-		//insertar jugadores
+			for (Deportista deportista: equipo.getJugadores()) {
+				deportista.insert(deportista);
+			}
+	
 			
-			for(Deportista deportista: equipo.getJugadores()) {
-				if(deportista.getId()!=null) {
-					deportista.update(deportista);
-				}else {
-					deportista.insert(deportista);
-				}
-			}*/
+			
 			
 		}
-		
-		
 	}
+	
+	/*public static void loadSponsors() {
+		for(Patrocinador patrocinador: DataSource.patrocinadores) {
+			for(Equipo equipo: patrocinador.getEquipos()) {
+				Equipo equipoRecuperado=equipo.select(equipo.getId());
+				
+				equipoRecuperado.getPatrocinadores();
+			}
+		}
+	}*/
+	
 }

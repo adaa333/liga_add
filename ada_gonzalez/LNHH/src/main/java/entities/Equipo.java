@@ -1,6 +1,5 @@
 package entities;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -8,8 +7,6 @@ import java.util.Set;
 import org.apache.logging.log4j.*;
 
 import dao.CRUD;
-import dao.DAO;
-import jakarta.persistence.CascadeType;
 
 /**
  * Esta clase representa a un equipo en la liga, se genera la tabla TEAMS en la BDD
@@ -18,19 +15,14 @@ import jakarta.persistence.CascadeType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EntityExistsException;
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PersistenceException;
-import jakarta.persistence.RollbackException;
+import jakarta.persistence.Query;
 import jakarta.persistence.Table;
-import jakarta.persistence.TransactionRequiredException;
 import util.Manager;
 
 @Entity
@@ -45,18 +37,6 @@ public class Equipo extends CRUD<Equipo>{
 	private Long id;
 	@Column (name="RINK")
 	private String pista;
-	/*@Column (name="GOALIE")
-	private String goalKeeper;
-	@Column (name="LEFT_WING")
-	private String alaIzq;
-	@Column (name="RIGHT_WING")
-	private String alaDch;
-	@Column (name="LEFT_DEFENSE")
-	private String defensaIzq;
-	@Column (name="RIGHT_DEFENSE")
-	private String defensaDch;
-	@Column (name="CENTRE")
-	private String centro;*/
 	
 	@OneToMany (mappedBy="equipoActual")
 	private Set<Deportista> jugadores=new HashSet<Deportista>();
@@ -65,12 +45,7 @@ public class Equipo extends CRUD<Equipo>{
 	@Column (name="POINTS")
 	private int puntos;
 
-	@ManyToMany (cascade = CascadeType.MERGE)
-    @JoinTable(
-        name = "TEAM_SPONSOR",
-        joinColumns = @JoinColumn(name = "TEAM_ID"),
-        inverseJoinColumns = @JoinColumn(name = "SPONSOR_ID")
-    )
+	@ManyToMany (mappedBy="equipos")
 	private Set<Patrocinador> patrocinadores= new HashSet<Patrocinador>();
 	
 //getters & setters
@@ -109,6 +84,10 @@ public class Equipo extends CRUD<Equipo>{
 	
 	public void setJugadores(List<Deportista> jugadores) {
 		this.jugadores.addAll(jugadores);
+		
+		for (Deportista deportista: getJugadores()) {
+			deportista.setEquipoActual(this);
+		}
 	}
 	
 	public Set<Deportista> getJugadores() {
@@ -117,6 +96,11 @@ public class Equipo extends CRUD<Equipo>{
 	
 	public void setPatrocinadores(List<Patrocinador> patrocinadores) {
 		this.patrocinadores.addAll(patrocinadores);
+		
+		for(Patrocinador patrocinador: patrocinadores) {
+			patrocinador.getEquipos().add(this);
+		}
+		
 	}
 	
 	public Set<Patrocinador> getPatrocinadores() {
@@ -134,5 +118,19 @@ public class Equipo extends CRUD<Equipo>{
 	}
 	
 //DAO
+	public Equipo select(long id) {
+		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
+
+		 String jpql = "SELECT e FROM Equipo e WHERE e.id = :id";
+	     Query query = manager.createQuery(jpql, Equipo.class);
+	     query.setParameter("id", id);
+	
+	        try {
+	            return (Equipo) query.getSingleResult();
+	        } catch (Exception e) {
+	            System.err.println("EXCEPCION");
+	            return null;
+	        }
+	}
 	
 }

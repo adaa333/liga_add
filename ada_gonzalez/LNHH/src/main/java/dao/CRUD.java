@@ -4,19 +4,21 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.TransientObjectException;
 
 import entities.Equipo;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceException;
+import jakarta.persistence.Query;
 import jakarta.persistence.RollbackException;
 import jakarta.persistence.TransactionRequiredException;
 import util.Manager;
 
 public abstract class CRUD<T> implements DAO<T>{
 	private static Logger logger=LogManager.getLogger(Equipo.class.getName());
-
+	
 	public void insert(T entity) {
 		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
 		try {
@@ -28,9 +30,13 @@ public abstract class CRUD<T> implements DAO<T>{
 		} catch (EntityExistsException entityExists) {
 			System.err.println("Entity: "+entity.getClass()+" already exists");
 			logger.error("Entity: "+entity.getClass()+" already exists - "+entityExists.getMessage()+"\nCaused by: "+entityExists.getCause());
+			entityExists.printStackTrace(); //borrar
 		}catch (TransactionRequiredException transactionRequired) {
 			System.err.println(transactionRequired.getMessage());
 			logger.error("Error con la transacción al insertar: "+entity.getClass()+" - "+transactionRequired.getMessage());
+			transactionRequired.printStackTrace();//borrar
+		}catch(TransientObjectException transientObject) {
+			transientObject.printStackTrace();
 		}catch (RollbackException rollback) {
 			System.err.println("Error: ha fallado un commit al intentar añadir: "+entity.getClass());
 			logger.error("Ha fallado un commit al intentar añadir: "+entity.getClass()+" - "+rollback.getMessage());
@@ -38,10 +44,11 @@ public abstract class CRUD<T> implements DAO<T>{
 			 if (manager.getTransaction() != null && manager.getTransaction().isActive()) {
 				 manager.getTransaction().rollback();
 	            }
-			 
+			 rollback.printStackTrace();//borrar
 		}catch(PersistenceException persistenceFailed) {
 			System.err.println("Flush failed while inserting entity: "+entity.getClass());
 			logger.error("Flush failed while inserting entity: "+entity.getClass()+"\nCaused by: "+persistenceFailed.getCause());
+			persistenceFailed.printStackTrace();//borrar
 		}finally {
 			if(manager != null) {
 				manager.close();
@@ -110,12 +117,6 @@ public abstract class CRUD<T> implements DAO<T>{
 		return resultado;
 	}
 
-	public T select(int id) {
-		T resultado=null;
-		
-		return resultado;
-	}
-
 	public void update(T entity) {
 		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
 		try {
@@ -136,6 +137,9 @@ public abstract class CRUD<T> implements DAO<T>{
 		}catch (TransactionRequiredException transactionRequired) {
 			System.err.println(transactionRequired.getMessage());
 			logger.error("Error con la transacción al actualizar: "+entity.getClass()+" - "+transactionRequired.getMessage());
+		}catch (IllegalArgumentException illegalArgument) {
+			System.err.println(illegalArgument.getMessage());
+			logger.error("Error con los argumentos al actualizar: "+entity.getClass()+" - "+illegalArgument.getMessage());
 		}catch(PersistenceException persistenceFailed) {
 			System.err.println("Flush failed while updating entity: "+entity.getClass());
 			logger.error("Flush failed while updating entity: "+entity.getClass()+"\nCaused by: "+persistenceFailed.getCause());
@@ -145,8 +149,6 @@ public abstract class CRUD<T> implements DAO<T>{
 				manager=null;
 	        }
 		}
-		
-		
 	}
-
+	
 }

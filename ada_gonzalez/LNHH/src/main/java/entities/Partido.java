@@ -12,6 +12,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityExistsException;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +21,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PersistenceException;
+import jakarta.persistence.Query;
 import jakarta.persistence.RollbackException;
 import jakarta.persistence.Table;
 import jakarta.persistence.TransactionRequiredException;
@@ -142,5 +144,19 @@ public class Partido extends CRUD<Partido>{
 	}
 
 	//DAO
+	
+	public Partido select(long id) {
+		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
+		  String jpql = "SELECT m FROM MATCHES m WHERE m.id = :id";
+	        Query query = manager.createQuery(jpql, Partido.class);
+	        query.setParameter("id", id);
+
+	        try {
+	            return (Partido) query.getSingleResult();
+	        } catch (Exception e) {
+	            System.err.println("Exception");
+	            return null;
+	        }
+	}
 
 }
