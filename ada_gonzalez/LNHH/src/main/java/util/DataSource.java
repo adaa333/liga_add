@@ -14,6 +14,14 @@ public class DataSource {
 	
 	public DataSource() {}
 	
+	public static List<Patrocinador> getPatrocinadores() {
+		return patrocinadores;
+	}
+
+	public static void setPatrocinadores(List<Patrocinador> patrocinadores) {
+		DataSource.patrocinadores = patrocinadores;
+	}
+
 	static List <Equipo> equipos= new ArrayList<Equipo>(Arrays.asList(	
 			new Equipo("Club Hielo Jaca Hockey", "Pabellón de Hielo de Jaca"),
 			new Equipo("Club Gel Puigcerdà", "Club Poliesportiu Puigcerdà"),
@@ -92,7 +100,7 @@ public class DataSource {
             
         }};
         
-        static List<Patrocinador> patrocinadores= new ArrayList<Patrocinador>(Arrays.asList(
+        private static List<Patrocinador> patrocinadores= new ArrayList<Patrocinador>(Arrays.asList(
         		new Patrocinador("Ambar", new ArrayList<Equipo>(Arrays.asList(equipos.get(0), equipos.get(3), equipos.get(5)))), 
         		new Patrocinador("Huesca la magia", new ArrayList<Equipo>(Arrays.asList(equipos.get(0)))),
         		new Patrocinador("Carrefour", new ArrayList<Equipo>(Arrays.asList(equipos.get(2), equipos.get(4), equipos.get(6)))),

@@ -36,14 +36,18 @@ public class Patrocinador extends CRUD<Patrocinador>{
 	private String name;
 	
 	@Column
-	@ManyToMany (cascade = CascadeType.MERGE)
-	@JoinTable(
-	        name = "TEAM_SPONSOR",
-	        joinColumns = @JoinColumn(name = "TEAM_ID"),
-	        inverseJoinColumns = @JoinColumn(name = "SPONSOR_ID")
-	    )
+	@ManyToMany (mappedBy="patrocinadores")
 	private List<Equipo> equipos= new ArrayList<Equipo>();
 
+	
+//getters y setters
+	
+	public void addEquipo(Equipo equipo) {
+	    equipos.add(equipo);
+	    equipo.getPatrocinadores().add(this);
+	    this.update(this);
+	}
+	
 	public Long getIdPatrocinador() {
 		return idPatrocinador;
 	}
@@ -73,11 +77,15 @@ public class Patrocinador extends CRUD<Patrocinador>{
 		this.equipos=equipos;
 	}
 
-//DAO
+public Patrocinador() {
+		// TODO Auto-generated constructor stub
+	}
+
+	//DAO
 	public Patrocinador select(long id) {
 		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
 
-		 String jpql = "SELECT e FROM Entidad e WHERE e.id = :id";
+		 String jpql = "SELECT p FROM Patrocinador p WHERE p.id = :id";
 	     Query query = manager.createQuery(jpql, Patrocinador.class);
 	     query.setParameter("id", id);
 	

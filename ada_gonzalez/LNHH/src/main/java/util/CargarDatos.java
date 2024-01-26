@@ -15,17 +15,23 @@ public class CargarDatos {
 			
 			List<Patrocinador> patrocinadoresDelEquipo= new ArrayList<Patrocinador>();
 			
-			for(Patrocinador patrocinador: DataSource.patrocinadores) {
+			for(Patrocinador patrocinador: DataSource.getPatrocinadores()) {
 				if(patrocinador.getEquipos().contains(equipo)) {
-					patrocinadoresDelEquipo.add(patrocinador);
+					if(patrocinador.getIdPatrocinador()!=null) {
+						patrocinador.update(patrocinador);
+					}else {
+						patrocinador.insert(patrocinador);
+					}
+					equipo.addPatrocinador(patrocinador);
+					patrocinador.addEquipo(equipo);
 				}
 			}
 			
 			Equipo equipoRecuperado= equipo.select(equipo.getId());
-			equipoRecuperado.setPatrocinadores(patrocinadoresDelEquipo);
+			
 
 	
-			for(Patrocinador patrocinador: equipoRecuperado.getPatrocinadores()) {
+			/*for(Patrocinador patrocinador: equipoRecuperado.getPatrocinadores()) {
 				patrocinador.getEquipos().add(equipoRecuperado);
 				if(patrocinador.getIdPatrocinador()!=null) {
 					patrocinador.update(patrocinador);
@@ -34,7 +40,9 @@ public class CargarDatos {
 				}
 				System.out.println(patrocinador.getNombre());
 				
-			}
+			}*/
+			
+			//equipoRecuperado.setPatrocinadores(patrocinadoresDelEquipo);
 			equipoRecuperado.setJugadores(DataSource.deportistas.get(equipo.getNombre()));
 			equipoRecuperado.update(equipoRecuperado);
 			

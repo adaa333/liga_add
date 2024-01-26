@@ -1,8 +1,10 @@
 package demo;
 
 import entities.Partido;
+import entities.Patrocinador;
 
 import java.util.Date;
+import java.util.List;
 
 import entities.Competicion;
 import entities.Deportista;
@@ -11,6 +13,7 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import util.CargarDatos;
+import util.DataSource;
 import util.Jornada;
 
 public class SimulacionMain {
@@ -18,6 +21,17 @@ public class SimulacionMain {
 	public static void main(String[] args) {
 		COMPETICION.insert(COMPETICION);
 		CargarDatos.loadDataInDB();
+		
+		
+		for(Patrocinador patrocinadorDS: DataSource.getPatrocinadores()) {
+			Patrocinador patrocinadorDB =patrocinadorDS.select(patrocinadorDS.getIdPatrocinador());
+			if(patrocinadorDB==null) {
+				System.out.println(patrocinadorDS.getNombre()+" no está en la base de datos");
+			}else {
+				System.out.println(patrocinadorDB.getNombre()+"(DB)-"+patrocinadorDS.getNombre()+"(DS)");
+			}
+			
+		}
 		
 	/*
 	 *EntityManagerFactory emFactory= Persistence.createEntityManagerFactory("lnhh");

@@ -7,6 +7,7 @@ import java.util.Set;
 import org.apache.logging.log4j.*;
 
 import dao.CRUD;
+import jakarta.persistence.CascadeType;
 
 /**
  * Esta clase representa a un equipo en la liga, se genera la tabla TEAMS en la BDD
@@ -19,6 +20,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Query;
@@ -45,10 +48,21 @@ public class Equipo extends CRUD<Equipo>{
 	@Column (name="POINTS")
 	private int puntos;
 
-	@ManyToMany (mappedBy="equipos")
+	@ManyToMany (cascade = CascadeType.PERSIST)
+	@JoinTable(
+	        name = "TEAM_SPONSOR",
+	        joinColumns = @JoinColumn(name = "TEAM_ID"),
+	        inverseJoinColumns = @JoinColumn(name = "SPONSOR_ID")
+	    )
 	private Set<Patrocinador> patrocinadores= new HashSet<Patrocinador>();
 	
 //getters & setters
+	
+	public void addPatrocinador(Patrocinador patrocinador) {
+	    patrocinadores.add(patrocinador);
+	    patrocinador.getEquipos().add(this);
+	    this.update(this);
+	}
 	
 	public String getNombre() {
 		return nombre;

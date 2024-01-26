@@ -117,7 +117,7 @@ public class Deportista extends CRUD<Deportista>{
 
 	public Deportista select(long id) {
 		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
-		  String jpql = "SELECT m FROM MATCHES m WHERE m.id = :id";
+		  String jpql = "SELECT d FROM Deportista d WHERE d.id = :id";
 	        Query query = manager.createQuery(jpql, Deportista.class);
 	        query.setParameter("id", id);
 
