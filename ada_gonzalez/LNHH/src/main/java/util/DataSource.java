@@ -106,7 +106,7 @@ public class DataSource {
         
         private static List<Patrocinador> patrocinadores= new ArrayList<Patrocinador>(Arrays.asList(
         		new Patrocinador("Ambar", new ArrayList<Equipo>(Arrays.asList(equipos.get(0), equipos.get(3), equipos.get(5)))), 
-        		new Patrocinador("Huesca la magia", new ArrayList<Equipo>(Arrays.asList(equipos.get(0)))),
+        		new Patrocinador("Huesca la magia", new ArrayList<Equipo>(Arrays.asList(equipos.get(1)))),
         		new Patrocinador("Carrefour", new ArrayList<Equipo>(Arrays.asList(equipos.get(2), equipos.get(4), equipos.get(6)))),
         		new Patrocinador("LaPerla", new ArrayList<Equipo>(Arrays.asList(equipos.get(0), equipos.get(2)))),
         		new Patrocinador("Mafesa", new ArrayList<Equipo>(Arrays.asList(equipos.get(1), equipos.get(2)))),
@@ -127,4 +127,6 @@ public class DataSource {
         		new Patrocinador("Conor VRC", new ArrayList<Equipo>(Arrays.asList(equipos.get(3), equipos.get(5))))
         		
         		));
+        
+
 }

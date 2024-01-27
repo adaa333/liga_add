@@ -91,11 +91,16 @@ public class Jornada {
 		partido1.iniciar();
 		partido2.iniciar();
 		partido3.iniciar();
-		competicion.getJornadas().getAndIncrement();
+		competicion.añadirJornada();
 		
-		setEquiposPartido1(partido1.getEquipoLocal()+"_"+partido1.getEquipoVisitante());
-		setEquiposPartido2(partido2.getEquipoLocal()+"_"+partido2.getEquipoVisitante());
-		setEquiposPartido3(partido3.getEquipoLocal()+"_"+partido3.getEquipoVisitante());
+		setEquiposPartido1(partido1.getTeams());
+		setEquiposPartido2(partido2.getTeams());
+		setEquiposPartido3(partido3.getTeams());
+		
+		partido1.insert(partido1);
+		partido2.insert(partido2);
+		partido3.insert(partido3);
+
 	}
 	
 }

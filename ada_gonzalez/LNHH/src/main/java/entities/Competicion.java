@@ -51,8 +51,14 @@ public class Competicion extends CRUD<Competicion>{
 		this.jornadas = jornadas;
 	}
 	
+	public void añadirJornada() {
+		getJornadas().getAndIncrement();
+		this.update(this);
+	}
+	
 //constructor
 	public Competicion(String nombre, Date fechaCreacion, int numEquipos) {
+		super(Competicion.class);
 		this.nombre = nombre;
 		this.fechaCreacion = fechaCreacion;
 		this.numEquipos = numEquipos;

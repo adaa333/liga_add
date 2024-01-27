@@ -98,6 +98,7 @@ public class Deportista extends CRUD<Deportista>{
 	
 //constructor
 	public Deportista(String nombre, String edad, String nacionalidad, Equipo equipoActual) {
+		super(Deportista.class);
 		this.nombre=nombre;
 		this.edad=edad;
 		this.nacionalidad=nacionalidad;
@@ -105,13 +106,14 @@ public class Deportista extends CRUD<Deportista>{
 	}
 	
 	public Deportista(String nombre, String edad, String nacionalidad, String posicion) {
+		super(Deportista.class);
 		this.nombre=nombre;
 		this.edad=edad;
 		this.nacionalidad=nacionalidad;
 		this.posicion=posicion;
 	}
 
-	public Deportista() {}
+	public Deportista() {super(Deportista.class);}
 
 //DAO
 

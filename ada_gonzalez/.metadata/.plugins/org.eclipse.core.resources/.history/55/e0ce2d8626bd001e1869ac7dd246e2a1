@@ -1,0 +1,73 @@
+package util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import entities.Deportista;
+import entities.Equipo;
+import entities.Patrocinador;
+
+public class CargarDatos {
+	
+	public static void loadDataInDB() {
+		for(Equipo equipo:DataSource.equipos) {
+			equipo.insert(equipo);
+			
+			
+			for(Patrocinador patrocinador: DataSource.getPatrocinadores()) {
+				if(patrocinador.getEquipos().contains(equipo)) {
+					if(patrocinador.getIdPatrocinador()!=null) { 
+						patrocinador.update(patrocinador); //entity already exists
+					}else {
+						patrocinador.insert(patrocinador); //entity not managed
+					}
+					if(!equipo.getPatrocinadores().contains(patrocinador)) {
+						equipo.addPatrocinador(patrocinador);
+						//patrocinador.addEquipo(equipo);
+					}
+				}
+			}
+			
+			Equipo equipoRecuperado= equipo.select(equipo.getId());
+			equipoRecuperado.setJugadores(DataSource.deportistas.get(equipo.getNombre()));
+			
+			for (Deportista deportista: equipoRecuperado.getJugadores()) {
+				deportista.insert(deportista);
+			}
+			
+			equipoRecuperado.update(equipoRecuperado);
+			
+		}
+		
+		//trial 2
+		
+		/*for(Equipo equipo: DataSource.getEquipos()) {
+			equipo.insert(equipo);
+			Equipo equipoRecuperado= equipo.select(equipo.getId());
+			equipoRecuperado.setJugadores(DataSource.deportistas.get(equipo.getNombre()));
+			
+			for (Deportista deportista: equipoRecuperado.getJugadores()) {
+				deportista.insert(deportista);
+			}
+		}
+		
+		for(Patrocinador patrocinador: DataSource.getPatrocinadores()) {
+			patrocinador.insert(patrocinador);
+		}
+		
+		for (Equipo equipo : DataSource.getEquipos()) {
+		    for (Patrocinador patrocinador : DataSource.getPatrocinadores()) {
+		    	if (patrocinador.getEquipos().contains(equipo)) {
+		            if (!equipo.getPatrocinadores().contains(patrocinador)) {
+		                equipo.addPatrocinador(patrocinador);
+		                patrocinador.addEquipo(equipo);
+		                if (patrocinador.getIdPatrocinador() == null) {
+		                    patrocinador.insert(patrocinador);
+		                }
+		            }
+		        }
+		    }
+		}*/
+		
+	}
+}

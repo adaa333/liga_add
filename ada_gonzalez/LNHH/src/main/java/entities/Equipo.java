@@ -91,9 +91,11 @@ public class Equipo extends CRUD<Equipo>{
 	}
 	public void setJornadasJugadasEnTemporadaActual(int jornadasJugadasEnTemporadaActual) {
 		this.jornadasJugadasEnTemporadaActual = jornadasJugadasEnTemporadaActual;
+		this.update(this);
 	}
 	public void setPuntos(int puntos) {
 		this.puntos = puntos;
+		this.update(this);
 	}
 	public int getPuntos() {
 		return puntos;
@@ -127,9 +129,10 @@ public class Equipo extends CRUD<Equipo>{
 	
 //constructor
 	
-	public Equipo() {}
+	public Equipo() {super(Equipo.class);}
 	
 	public Equipo(String nombre, String pista) {
+		super(Equipo.class);
 		this.nombre=nombre;
 		this.pista=pista;
 	}
@@ -141,6 +144,21 @@ public class Equipo extends CRUD<Equipo>{
 		 String jpql = "SELECT e FROM Equipo e WHERE e.id = :id";
 	     Query query = manager.createQuery(jpql, Equipo.class);
 	     query.setParameter("id", id);
+	
+	        try {
+	            return (Equipo) query.getSingleResult();
+	        } catch (Exception e) {
+	            System.err.println("EXCEPCION");
+	            return null;
+	        }
+	}
+	
+	public Equipo selectByName(String name) {
+		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
+
+		 String jpql = "SELECT e FROM Equipo e WHERE e.nombre = :nombre";
+	     Query query = manager.createQuery(jpql, Equipo.class);
+	     query.setParameter("nombre", name);
 	
 	        try {
 	            return (Equipo) query.getSingleResult();

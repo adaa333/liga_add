@@ -1,8 +1,5 @@
 package util;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import entities.Deportista;
 import entities.Equipo;
 import entities.Patrocinador;
@@ -12,8 +9,7 @@ public class CargarDatos {
 	public static void loadDataInDB() {
 		for(Equipo equipo:DataSource.equipos) {
 			equipo.insert(equipo);
-			
-			
+				
 			for(Patrocinador patrocinador: DataSource.getPatrocinadores()) {
 				if(patrocinador.getEquipos().contains(equipo)) {
 					if(patrocinador.getIdPatrocinador()!=null) { 
@@ -21,8 +17,10 @@ public class CargarDatos {
 					}else {
 						patrocinador.insert(patrocinador); //entity not managed
 					}
-					equipo.addPatrocinador(patrocinador);
-					//patrocinador.addEquipo(equipo);
+					if(!equipo.getPatrocinadores().contains(patrocinador)) {
+						equipo.addPatrocinador(patrocinador);
+						//patrocinador.addEquipo(equipo);
+					}
 				}
 			}
 			

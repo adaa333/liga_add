@@ -76,11 +76,13 @@ public class Patrocinador extends CRUD<Patrocinador>{
 	}
 
 	public Patrocinador(String name, List<Equipo> equipos) {
+		super(Patrocinador.class);
 		this.name = name;
 		this.equipos=equipos;
 	}
 
 public Patrocinador() {
+	super(null);
 		// TODO Auto-generated constructor stub
 	}
 

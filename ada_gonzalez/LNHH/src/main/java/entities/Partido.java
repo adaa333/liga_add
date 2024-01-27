@@ -14,6 +14,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,16 +37,22 @@ public class Partido extends CRUD<Partido>{
 	@GeneratedValue (strategy= GenerationType.IDENTITY)
 	@Column (name="MATCH_ID")
 	private Long idPartido;
-	@JoinColumn (name="LOCAL_TEAM_ID")
-	@OneToOne (optional = false, cascade = CascadeType.MERGE)
+	/*@JoinColumn (name="LOCAL_TEAM_ID")
+	@ManyToOne (optional = false, cascade = CascadeType.MERGE)
 	private Equipo equipoLocal;
 	@JoinColumn (name="VISITING_TEAM_ID")
-	@OneToOne (optional = false, cascade = CascadeType.MERGE)
-	private Equipo equipoVisitante;
+	@ManyToOne (optional = false, cascade = CascadeType.MERGE)
+	private Equipo equipoVisitante;*/
+	@Column (name="teams_confronted")
+	private String teams;
 	@Column (name="RINK")
 	private String pista;
 	@Column (name="OUTCOME")
 	private String resultado;
+	
+	@ManyToOne(optional = false, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+	@JoinColumn (name="season", referencedColumnName = "NAME")
+	Competicion competicion;
 	
 	private String jornada;
 	
@@ -67,22 +74,6 @@ public class Partido extends CRUD<Partido>{
 	public void setPista(String pista) {
 		this.pista = pista;
 	}
-	
-	public Equipo getEquipoLocal() {
-		return equipoLocal;
-	}
-
-	public void setEquipoLocal(Equipo equipoLocal) {
-		this.equipoLocal = equipoLocal;
-	}
-
-	public Equipo getEquipoVisitante() {
-		return equipoVisitante;
-	}
-
-	public void setEquipoVisitante(Equipo equipoVisitante) {
-		this.equipoVisitante = equipoVisitante;
-	}
 
 	public String getResultado() {
 		return resultado;
@@ -98,17 +89,33 @@ public class Partido extends CRUD<Partido>{
 	public String getJornada() {
 		return jornada;
 	}
+	
+	public void setTeams(String teams) {
+		this.teams = teams;
+	}
+	public String getTeams() {
+		return teams;
+	}
 
 	//constructor
-	public Partido() {}
+	public Partido() {super(Partido.class);}
 	
-	public Partido(Equipo equipoLocal, Equipo equipoVisitante) {
-		this.equipoLocal=equipoLocal;
-		this.equipoVisitante=equipoVisitante;
+	public Partido(String teams) {
+		super(Partido.class);
+		this.teams=teams;
+		String [] equipos = this.teams.split("-");
+		Equipo equipoLocal = new Equipo();
+		equipoLocal=equipoLocal.selectByName(equipos[0]);
 		this.pista=equipoLocal.getPista();
 	}
 	
 	public void iniciar() {
+		Equipo equipoLocal = new Equipo();
+		equipoLocal=equipoLocal.select(equipoLocal.getId());
+		
+		Equipo equipoVisitante = new Equipo();
+		equipoVisitante=equipoVisitante.select(equipoVisitante.getId());
+		
 		Random rnd = new Random();
 		int ptosEquipoLocal=rnd.nextInt(4);
 		int ptosEquipoVisitante=0;

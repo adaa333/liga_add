@@ -1,0 +1,66 @@
+package util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import entities.Competicion;
+import entities.Partido;
+
+public class IniciarCompeticion {
+	
+	public static void iniciarTemporada(Competicion competicion) {
+		List<Partido> partidos = new ArrayList<Partido>();
+		List<Partido> partidosVuelta2 = new ArrayList<Partido>();
+
+
+		partidos.add(new Partido(DataSource.getEquipos().get(0), DataSource.getEquipos().get(1)));
+		partidos.add(new Partido(DataSource.getEquipos().get(2), DataSource.getEquipos().get(3)));
+		partidos.add(new Partido(DataSource.getEquipos().get(4), DataSource.getEquipos().get(5)));
+		
+		partidos.add(new Partido(DataSource.getEquipos().get(0), DataSource.getEquipos().get(2)));
+		partidos.add(new Partido(DataSource.getEquipos().get(1), DataSource.getEquipos().get(6)));
+		partidos.add(new Partido(DataSource.getEquipos().get(4), DataSource.getEquipos().get(3)));
+		
+		partidos.add(new Partido(DataSource.getEquipos().get(0), DataSource.getEquipos().get(3)));
+		partidos.add(new Partido(DataSource.getEquipos().get(1), DataSource.getEquipos().get(5)));
+		partidos.add(new Partido(DataSource.getEquipos().get(2), DataSource.getEquipos().get(6)));
+		
+		partidos.add(new Partido(DataSource.getEquipos().get(0), DataSource.getEquipos().get(5)));
+		partidos.add(new Partido(DataSource.getEquipos().get(1), DataSource.getEquipos().get(2)));
+		partidos.add(new Partido(DataSource.getEquipos().get(4), DataSource.getEquipos().get(6)));
+		
+		partidos.add(new Partido(DataSource.getEquipos().get(0), DataSource.getEquipos().get(4)));
+		partidos.add(new Partido(DataSource.getEquipos().get(1), DataSource.getEquipos().get(3)));
+		partidos.add(new Partido(DataSource.getEquipos().get(6), DataSource.getEquipos().get(5)));
+		
+		partidos.add(new Partido(DataSource.getEquipos().get(0), DataSource.getEquipos().get(6)));
+		partidos.add(new Partido(DataSource.getEquipos().get(2), DataSource.getEquipos().get(4)));
+		partidos.add(new Partido(DataSource.getEquipos().get(3), DataSource.getEquipos().get(5)));
+		
+		partidos.add(new Partido(DataSource.getEquipos().get(1), DataSource.getEquipos().get(4)));
+		partidos.add(new Partido(DataSource.getEquipos().get(2), DataSource.getEquipos().get(5)));
+		partidos.add(new Partido(DataSource.getEquipos().get(3), DataSource.getEquipos().get(6)));
+		
+		for(Partido partido: partidos) {
+			partidosVuelta2.add(new Partido(partido.getEquipoVisitante(),partido.getEquipoLocal()));
+		}
+
+
+		List<Jornada> jornadas= new ArrayList<Jornada>();
+
+		
+		for (int i=0; i<7;i+=3) {
+			jornadas.add(new Jornada(competicion, partidos.get(i), partidos.get(i+1),partidos.get(i+2)));
+		}
+		
+		for (int i=0; i<7;i+=3) {
+			jornadas.add(new Jornada(competicion, partidosVuelta2.get(i), partidosVuelta2.get(i+1),partidosVuelta2.get(i+2)));
+		}	
+		
+		//jornadas y partidos en memoria
+		for(Jornada jornada: jornadas) {
+			
+		}
+	}
+	
+}

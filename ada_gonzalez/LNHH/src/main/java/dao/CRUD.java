@@ -14,10 +14,18 @@ import jakarta.persistence.PersistenceException;
 import jakarta.persistence.Query;
 import jakarta.persistence.RollbackException;
 import jakarta.persistence.TransactionRequiredException;
+import jakarta.persistence.TypedQuery;
 import util.Manager;
 
-public abstract class CRUD<T> implements DAO<T>{
+public class CRUD<T> implements DAO<T>{
 	private static Logger logger=LogManager.getLogger(Equipo.class.getName());
+
+	private Class<T> entityClass;
+	
+	public CRUD(Class<T> entity){
+		 this.entityClass=entity;
+
+	}
 	
 	public void insert(T entity) {
 		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
@@ -95,8 +103,9 @@ public abstract class CRUD<T> implements DAO<T>{
 		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
 		List<T> resultado=null; 
 		try {
-			manager.getTransaction().begin();
-			manager.getTransaction().commit();
+			String jpql = "SELECT e FROM " + entityClass.getSimpleName() + " e";
+	        TypedQuery<T> query = manager.createQuery(jpql, entityClass);
+	        return query.getResultList();
 		} catch (IllegalStateException illegalState) {
 			System.err.println("Error con la transacción: "+illegalState.getMessage()+"\nCaused by: "+illegalState.getCause());
 			logger.error("Error con la transacción: "+illegalState.getMessage()+"\nCaused by: "+illegalState.getCause());
@@ -150,6 +159,11 @@ public abstract class CRUD<T> implements DAO<T>{
 				manager=null;
 	        }
 		}
+	}
+
+	public T select(long id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

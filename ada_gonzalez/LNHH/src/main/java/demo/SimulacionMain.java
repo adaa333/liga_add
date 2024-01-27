@@ -14,6 +14,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import util.CargarDatos;
 import util.DataSource;
+import util.IniciarCompeticion;
 import util.Jornada;
 
 public class SimulacionMain {
@@ -30,8 +31,9 @@ public class SimulacionMain {
 			}else {
 				System.out.println(patrocinadorDB.getNombre()+"(DB)-"+patrocinadorDS.getNombre()+"(DS)");
 			}
-			
 		}
+		
+		IniciarCompeticion.iniciarTemporada(COMPETICION);
 		
 	/*
 	 *EntityManagerFactory emFactory= Persistence.createEntityManagerFactory("lnhh");
