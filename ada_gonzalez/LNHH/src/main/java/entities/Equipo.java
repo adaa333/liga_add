@@ -48,7 +48,7 @@ public class Equipo extends CRUD<Equipo>{
 	@Column (name="POINTS")
 	private int puntos;
 
-	@ManyToMany (cascade = CascadeType.PERSIST)
+	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
 	@JoinTable(
 	        name = "TEAM_SPONSOR",
 	        joinColumns = @JoinColumn(name = "TEAM_ID"),
@@ -59,9 +59,12 @@ public class Equipo extends CRUD<Equipo>{
 //getters & setters
 	
 	public void addPatrocinador(Patrocinador patrocinador) {
-	    patrocinadores.add(patrocinador);
-	    patrocinador.getEquipos().add(this);
-	    this.update(this);
+	    Equipo equipoRecuperado=this.select(this.getId());
+    	if(!equipoRecuperado.getPatrocinadores().contains(patrocinador)) {
+    		 patrocinadores.add(patrocinador);
+    		 //patrocinador.getEquipos().add(this);
+    		 this.update(this);
+ 	    }
 	}
 	
 	public String getNombre() {

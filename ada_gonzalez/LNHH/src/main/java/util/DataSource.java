@@ -17,9 +17,13 @@ public class DataSource {
 	public static List<Patrocinador> getPatrocinadores() {
 		return patrocinadores;
 	}
-
-	public static void setPatrocinadores(List<Patrocinador> patrocinadores) {
-		DataSource.patrocinadores = patrocinadores;
+	
+	public static List<Equipo> getEquipos() {
+		return equipos;
+	}
+	
+	public static Map<String, List<Deportista>> getDeportistas() {
+		return deportistas;
 	}
 
 	static List <Equipo> equipos= new ArrayList<Equipo>(Arrays.asList(	

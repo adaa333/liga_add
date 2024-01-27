@@ -42,11 +42,14 @@ public class Patrocinador extends CRUD<Patrocinador>{
 	
 //getters y setters
 	
-	public void addEquipo(Equipo equipo) {
-	    equipos.add(equipo);
-	    equipo.getPatrocinadores().add(this);
-	    this.update(this);
-	}
+	/*public void addEquipo(Equipo equipo) {
+		 Patrocinador patrocinadorRecuperado=this.select(this.getIdPatrocinador());
+	    	if(!patrocinadorRecuperado.getEquipos().contains(equipo)) {
+	    		 equipos.add(equipo);
+	    		// equipo.getPatrocinadores().add(this);
+	    		 this.update(this);
+	 	    }
+	}*/
 	
 	public Long getIdPatrocinador() {
 		return idPatrocinador;

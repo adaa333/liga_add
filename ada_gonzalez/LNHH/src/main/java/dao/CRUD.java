@@ -121,7 +121,7 @@ public abstract class CRUD<T> implements DAO<T>{
 		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
 		try {
 			manager.getTransaction().begin();
-			manager.refresh(entity);
+			manager.merge(entity);
 			manager.getTransaction().commit();
 		}catch (EntityNotFoundException entityNotFound) {
 			System.err.println("Entity: "+entity.getClass()+" already exists");
@@ -133,13 +133,14 @@ public abstract class CRUD<T> implements DAO<T>{
 			 if (manager.getTransaction() != null && manager.getTransaction().isActive()) {
 				 manager.getTransaction().rollback();
 	            }
-			 
+			 rollback.printStackTrace();//borrar
 		}catch (TransactionRequiredException transactionRequired) {
 			System.err.println(transactionRequired.getMessage());
 			logger.error("Error con la transacción al actualizar: "+entity.getClass()+" - "+transactionRequired.getMessage());
 		}catch (IllegalArgumentException illegalArgument) {
 			System.err.println(illegalArgument.getMessage());
 			logger.error("Error con los argumentos al actualizar: "+entity.getClass()+" - "+illegalArgument.getMessage());
+			illegalArgument.printStackTrace();//borrar
 		}catch(PersistenceException persistenceFailed) {
 			System.err.println("Flush failed while updating entity: "+entity.getClass());
 			logger.error("Flush failed while updating entity: "+entity.getClass()+"\nCaused by: "+persistenceFailed.getCause());
