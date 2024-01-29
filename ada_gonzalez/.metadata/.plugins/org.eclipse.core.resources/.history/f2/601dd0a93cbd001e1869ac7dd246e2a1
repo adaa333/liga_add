@@ -1,0 +1,10 @@
+public void iniciarJornada() {
+		partido1.iniciar();
+		partido2.iniciar();
+		partido3.iniciar();
+		competicion.getJornadas().getAndIncrement();
+		
+		setEquiposPartido1(partido1.getEquipoLocal()+"_"+partido1.getEquipoVisitante());
+		setEquiposPartido2(partido2.getEquipoLocal()+"_"+partido2.getEquipoVisitante());
+		setEquiposPartido3(partido3.getEquipoLocal()+"_"+partido3.getEquipoVisitante());
+	}

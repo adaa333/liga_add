@@ -17,8 +17,9 @@ import util.DataSource;
 public class SimulacionMain {
 	private static final Competicion COMPETICION= new Competicion("Liga Nacional de Hockey Hielo", new Date(1972, 11, 20), 7);
 	public static void main(String[] args) {
-		Simulacion.cargarDatosEnDatabase(COMPETICION);
-		Simulacion.simularTemporada2425(COMPETICION);
+		COMPETICION.insert(COMPETICION);
+		CargarDatos.loadDataInDB();
+		
 	
 	}
 }

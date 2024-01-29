@@ -99,12 +99,6 @@ public class Equipo extends CRUD<Equipo>{
 		return puntos;
 	}
 	
-	public void addPartido(int puntos) {
-		jornadasJugadasEnTemporadaActual=jornadasJugadasEnTemporadaActual++;
-		setPuntos(getPuntos()+puntos);
-		this.update(this);
-	}
-	
 	public void setJugadores(List<Deportista> jugadores) {
 		this.jugadores.addAll(jugadores);
 		
@@ -138,7 +132,6 @@ public class Equipo extends CRUD<Equipo>{
 	public Equipo(String nombre, String pista) {
 		this.nombre=nombre;
 		this.pista=pista;
-		this.jornadasJugadasEnTemporadaActual=0;
 	}
 	
 //DAO

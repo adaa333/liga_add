@@ -16,8 +16,6 @@ import util.Manager;
 public class Competicion extends CRUD<Competicion>{
 
 	@Id
-	@Column (name="ID")
-	private long id;
 	@Column (name="NAME")
 	private static String nombre;
 	@Column (name="CREATION_DATE")

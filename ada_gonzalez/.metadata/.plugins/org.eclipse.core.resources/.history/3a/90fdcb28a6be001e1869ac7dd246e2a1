@@ -101,8 +101,7 @@ public class Equipo extends CRUD<Equipo>{
 	
 	public void addPartido(int puntos) {
 		jornadasJugadasEnTemporadaActual=jornadasJugadasEnTemporadaActual++;
-		setPuntos(getPuntos()+puntos);
-		this.update(this);
+		
 	}
 	
 	public void setJugadores(List<Deportista> jugadores) {

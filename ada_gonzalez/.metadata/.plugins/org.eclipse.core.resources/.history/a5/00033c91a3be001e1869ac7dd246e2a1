@@ -16,8 +16,6 @@ import util.Manager;
 public class Competicion extends CRUD<Competicion>{
 
 	@Id
-	@Column (name="ID")
-	private long id;
 	@Column (name="NAME")
 	private static String nombre;
 	@Column (name="CREATION_DATE")
@@ -54,9 +52,9 @@ public class Competicion extends CRUD<Competicion>{
 	}
 	
 //constructor
-	public Competicion(String name, Date fecha, int numEquipos) {
-		nombre = name;
-		fechaCreacion = fecha;
+	public Competicion(String nombre, Date fechaCreacion, int numEquipos) {
+		this.nombre = nombre;
+		this.fechaCreacion = fechaCreacion;
 		this.numEquipos = numEquipos;
 	}
 	

@@ -1,0 +1,53 @@
+package demo;
+
+import entities.Partido;
+import entities.Patrocinador;
+
+import java.util.Date;
+import java.util.List;
+
+import entities.Competicion;
+import entities.Deportista;
+import entities.Equipo;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import util.CargarDatos;
+import util.DataSource;
+import util.Jornada;
+
+public class SimulacionMain {
+	private static final Competicion COMPETICION= new Competicion("Liga Nacional de Hockey Hielo", new Date(1972, 11, 20), 7);
+	public static void main(String[] args) {
+		COMPETICION.insert(COMPETICION);
+		CargarDatos.loadDataInDB();
+		
+		
+		/*for(Patrocinador patrocinadorDS: DataSource.getPatrocinadores()) {
+			Patrocinador patrocinadorDB =patrocinadorDS.select(patrocinadorDS.getIdPatrocinador());
+			if(patrocinadorDB==null) {
+				System.out.println(patrocinadorDS.getNombre()+" no está en la base de datos");
+			}else {
+				System.out.println(patrocinadorDB.getNombre()+"(DB)-"+patrocinadorDS.getNombre()+"(DS)");
+			}
+			
+		}*/
+		
+	
+	//inicio temporada
+		
+		//jornada1
+		Partido partido1= new Partido(equipo1,equipo2);
+		eManager.persist(partido1);
+		
+		Partido partido2= new Partido(equipo3,equipo4);
+		eManager.persist(partido2);
+		
+		Partido partido3= new Partido(equipo5,equipo6);
+		eManager.persist(partido3);
+		
+		Jornada jornada1= new Jornada(COMPETICION,partido1,partido2,partido3);
+		
+		jornada1.iniciarJornada();
+	}
+}

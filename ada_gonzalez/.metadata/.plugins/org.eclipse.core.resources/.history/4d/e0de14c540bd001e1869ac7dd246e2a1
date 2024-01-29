@@ -1,0 +1,16 @@
+package demo;
+
+import entities.Competicion;
+
+public class Simulacion {
+	
+	public static void simularTemporada2425(Competicion competicion) {
+		//inicio temporada
+		System.out.println("Inicio de la "+Competicion.getNombre()+" - (since"+Competicion.getFechaCreacion()+")");
+		//jornada1
+		
+		
+		//-partido1
+		System.out.println();
+	}
+}

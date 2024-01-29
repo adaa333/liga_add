@@ -1,0 +1,23 @@
+package demo;
+
+import entities.Competicion;
+import util.CargarDatos;
+
+public class Simulacion {
+	
+	public static void cargarDatosEnDatabase(Competicion competicion) {
+		competicion.insert(competicion);
+		CargarDatos.loadDataInDB();
+	}
+	
+	public static void simularTemporada2425(Competicion competicion) {
+		//inicio temporada
+		System.out.println("Inicio de la "+Competicion.getNombre()+" - (since"+Competicion.getFechaCreacion()+")");
+		//jornada1
+		System.out.println("");
+		
+		
+		//-partido1
+		System.out.println();
+	}
+}
