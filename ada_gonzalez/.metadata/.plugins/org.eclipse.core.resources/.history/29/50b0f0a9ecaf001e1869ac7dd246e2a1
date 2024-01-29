@@ -1,9 +1,0 @@
-package entities;
-
-import java.sql.Date;
-
-public class Jornada {
-	
-	private Date fecha;
-	
-}

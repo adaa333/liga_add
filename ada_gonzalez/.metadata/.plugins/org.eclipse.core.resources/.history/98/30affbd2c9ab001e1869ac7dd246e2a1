@@ -1,9 +1,0 @@
-package demo;
-
-import schema.Deportista;
-
-public class SimulacionMain {
-	public static void main(String[] args) {
-		Deportista d1= new Deportista();
-	}
-}

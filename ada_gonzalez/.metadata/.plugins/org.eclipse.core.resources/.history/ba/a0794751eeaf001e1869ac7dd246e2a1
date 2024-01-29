@@ -1,7 +1,0 @@
-package auxiliares;
-
-public class Jornada {
-	
-	private Competicion competicion;
-	
-}

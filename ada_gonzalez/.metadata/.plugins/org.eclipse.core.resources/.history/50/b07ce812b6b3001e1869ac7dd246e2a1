@@ -1,8 +1,0 @@
-package auxiliares;
-
-public interface DAO {
-	public void insert();
-	public void delete();
-	public void select();
-	public void select(int id);
-}
