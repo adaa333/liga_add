@@ -1,0 +1,43 @@
+package util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import entities.Deportista;
+import entities.Equipo;
+import entities.Patrocinador;
+
+public class CargarDatos2 {
+	
+	public static void loadData() {
+		for(Equipo equipo:DataSource.getEquipos()) {
+			equipo.insert(equipo);
+			List<Patrocinador> patrocinadoresDelEquipo= new ArrayList<Patrocinador>();
+			
+			for(Patrocinador patrocinador: DataSource.getPatrocinadores()) {
+				
+					
+					equipo.addPatrocinador(patrocinador);
+					patrocinador.addEquipo(equipo);
+					
+					patrocinador.insert(patrocinador);
+					
+			}
+			
+			Equipo equipoRecuperado= equipo.select(equipo.getId());
+
+			equipoRecuperado.setPatrocinadores(patrocinadoresDelEquipo);
+			equipoRecuperado.setJugadores(DataSource.deportistas.get(equipo.getNombre()));
+			equipoRecuperado.update(equipoRecuperado);
+
+			
+			for (Deportista deportista: equipoRecuperado.getJugadores()) {
+				deportista.insert(deportista);
+			}
+			
+			equipo.update(equipoRecuperado);
+		}
+	}
+}
+
+

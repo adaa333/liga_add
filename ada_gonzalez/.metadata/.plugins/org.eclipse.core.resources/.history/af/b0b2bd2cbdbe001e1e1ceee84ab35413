@@ -1,0 +1,50 @@
+package demo;
+
+import entities.Patrocinador;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import entities.Competicion;
+import entities.Deportista;
+import entities.Equipo;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
+import util.CargarDatos;
+import util.DataSource;
+
+public class SimulacionMain {
+	private static final Competicion COMPETICION= new Competicion("Liga Nacional de Hockey Hielo", new Date(1972, 11, 20), 7);
+	public static void main(String[] args) {
+		//Simulacion.cargarDatosEnDatabase(COMPETICION);
+		//Simulacion.simularTemporada2425(COMPETICION);
+		
+			Patrocinador patrocinador1=DataSource.getPatrocinadores().get(0);
+			Patrocinador patrocinador2=DataSource.getPatrocinadores().get(1);
+			
+			Equipo equipo1=DataSource.getEquipos().get(0);
+			Equipo equipo2=DataSource.getEquipos().get(1);
+
+
+			
+			
+			List<Equipo> equiposPatrocinados = patrocinador.getEquipos();
+			
+			patrocinador.setEquipos(new ArrayList<Equipo>());
+			
+			for(Equipo equipoPatrocinado : equiposPatrocinados) {
+				if(equipoPatrocinado.getId()!=null) {
+					equipoPatrocinado.addPatrocinador(patrocinador);
+				}else {
+					equipoPatrocinado.insert(equipoPatrocinado);
+					equipoPatrocinado.addPatrocinador(patrocinador);
+				}
+				
+			}
+			
+		}
+	
+	}
+}

@@ -9,4 +9,6 @@ public interface DAO <T>{
 	public T select(long id);
 	public void update(T entity);
 	
+	//public boolean entityExists(T entity);
+	
 }

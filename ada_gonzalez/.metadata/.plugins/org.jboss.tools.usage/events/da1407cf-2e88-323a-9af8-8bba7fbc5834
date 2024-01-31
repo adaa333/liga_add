@@ -1,10 +1,10 @@
-#Mon Jan 29 13:30:14 CET 2024
+#Wed Jan 31 15:32:33 CET 2024
 a=finishWizard
 c=0
 cl=org.hibernate.eclipse.jdt.ui.internal.jpa.process.wizard.HibernateJPAWizard
 cmp=usage
 ct=jbt
-d=1706531413979
+d=1706711553570
 l=Wizard class name
 s=0
 v=2.2.500

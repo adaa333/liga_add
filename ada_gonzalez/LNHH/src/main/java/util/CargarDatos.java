@@ -10,32 +10,47 @@ import entities.Patrocinador;
 public class CargarDatos {
 	
 	public static void loadDataInDB() {
-		for(Equipo equipo:DataSource.equipos) {
-			equipo.insert(equipo);
+
+		for (Patrocinador patrocinador: DataSource.getPatrocinadores()) {
+			patrocinador.insert(patrocinador);
 			
+			List<Equipo> equiposPatrocinados = patrocinador.getEquipos();
 			
-			for(Patrocinador patrocinador: DataSource.getPatrocinadores()) {
-				if(patrocinador.getEquipos().contains(equipo)) {
-					if(patrocinador.getIdPatrocinador()!=null) { 
-						patrocinador.update(patrocinador); //entity already exists
-					}else {
-						patrocinador.insert(patrocinador); //entity not managed
-					}
-					equipo.addPatrocinador(patrocinador);
-					//patrocinador.addEquipo(equipo);
+			patrocinador.setEquipos(new ArrayList<Equipo>());
+			
+			for(Equipo equipoPatrocinado : equiposPatrocinados) {
+				if(equipoPatrocinado.getId()!=null) {
+					equipoPatrocinado.addPatrocinador(patrocinador);
+				}else {
+					equipoPatrocinado.insert(equipoPatrocinado);
+					equipoPatrocinado.addPatrocinador(patrocinador);
 				}
+				
 			}
 			
-			Equipo equipoRecuperado= equipo.select(equipo.getId());
-			equipoRecuperado.setJugadores(DataSource.deportistas.get(equipo.getNombre()));
+		}
+		
+		for(Equipo equipo: DataSource.getEquipos()) {
+			equipo.setJugadores(DataSource.getDeportistas().get(equipo.getNombre()));
+			
+			for(Deportista deportista: equipo.getJugadores()) {
+				deportista.insert(deportista);
+			}
+		}
+			//todos los patrocinadores y equipos con patrocinador se han guardado
+			
+			
+			
+			
+			/*equipoRecuperado.setJugadores(DataSource.deportistas.get(equipo.getNombre()));
 			
 			for (Deportista deportista: equipoRecuperado.getJugadores()) {
 				deportista.insert(deportista);
-			}
+			}*/
 			
-			equipoRecuperado.update(equipoRecuperado);
+			//equipoRecuperado.update(equipoRecuperado);
 			
-		}
+		
 		
 		//trial 2
 		

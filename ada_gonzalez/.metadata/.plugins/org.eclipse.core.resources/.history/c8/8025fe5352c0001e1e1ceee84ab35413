@@ -1,0 +1,91 @@
+package entities;
+
+import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import dao.CRUD;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Query;
+import jakarta.persistence.Table;
+import util.Manager;
+@Entity
+@Table (name="COMPETITION")
+public class Competicion extends CRUD<Competicion>{
+
+	@Id
+	@GeneratedValue (strategy=GenerationType.IDENTITY)
+	@Column (name="ID")
+	private long id;
+	@Column (name = "NAME", nullable = true, columnDefinition = "VARCHAR(255) DEFAULT 'Liga Nacional de Hockey Hielo'")
+	private static String nombre;
+	@Column (name="CREATION_DATE")
+	private static Date fechaCreacion;
+	@Column (name="TEAMS")
+	private int numEquipos;
+	@Column (name="journeys")
+	private int jornadas=0;
+	
+//getters y setters
+	public static String getNombre() {
+		return nombre;
+	}
+	public void setNombre(String name) {
+		nombre = name;
+	}
+	public static Date getFechaCreacion() {
+		return fechaCreacion;
+	}
+	public void setFechaCreacion(Date fecha) {
+		fechaCreacion = fecha;
+	}
+	public int getNumEquipos() {
+		return numEquipos;
+	}
+	public void setNumEquipos(int numEquipos) {
+		this.numEquipos = numEquipos;
+	}
+	public int getJornadas() {
+		return jornadas;
+	}
+	public void setJornadas(int jornadas) {
+		this.jornadas = jornadas;
+	}
+	
+	public void addJornada() {
+		this.jornadas+=1;
+		this.update(this);
+	}
+	
+//constructor
+	public Competicion(String name, Date fecha, int numEquipos) {
+		nombre = name;
+		fechaCreacion = fecha;
+		this.numEquipos = numEquipos;
+	}
+	
+//DAO
+	
+	
+	
+	public Competicion select(long id) {
+		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
+
+		 String jpql = "SELECT e FROM Entidad e WHERE e.id = :id";
+	     Query query = manager.createQuery(jpql, Competicion.class);
+	     query.setParameter("id", id);
+	
+	        try {
+	            return (Competicion) query.getSingleResult();
+	        } catch (Exception e) {
+	            System.err.println("EXCEPCION");
+	            return null;
+	        }
+	}
+	
+	
+}

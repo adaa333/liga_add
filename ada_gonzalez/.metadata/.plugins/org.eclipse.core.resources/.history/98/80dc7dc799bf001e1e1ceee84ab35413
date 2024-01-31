@@ -1,0 +1,131 @@
+package util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import entities.Deportista;
+import entities.Equipo;
+import entities.Patrocinador;
+
+public class CargarDatos2 {
+	
+	/*public static void loadData() {
+		for(Equipo equipo:DataSource.getEquipos()) {
+			equipo.insert(equipo);
+			List<Patrocinador> patrocinadoresDelEquipo= new ArrayList<Patrocinador>();
+			
+			for(Patrocinador patrocinador: DataSource.getPatrocinadores()) {
+				if(patrocinador.getEquipos().contains(equipo)) {
+					patrocinadoresDelEquipo.add(patrocinador);
+				}
+					
+			}
+			
+			Equipo equipoRecuperado= equipo.select(equipo.getId());
+			
+			equipoRecuperado.setJugadores(DataSource.getDeportistas().get(equipoRecuperado.getNombre()));
+			equipoRecuperado.update(equipoRecuperado);
+			
+
+			//equipoRecuperado.setPatrocinadores(patrocinadoresDelEquipo);
+			
+			for (Patrocinador patrocinador: equipoRecuperado.getPatrocinadores()) {
+				
+				if(patrocinador.getIdPatrocinador()!=null) {
+					patrocinador.update(patrocinador);
+				}else {
+					patrocinador.insert(patrocinador);
+				}
+			}
+			
+			for (Deportista deportista: equipoRecuperado.getJugadores()) {
+				deportista.insert(deportista);
+			}
+			
+			equipo.update(equipoRecuperado);
+		}
+	}*/
+	
+	public static void loadData() {
+		List<Equipo> equipos = DataSource.getEquipos();
+    	Map<String, Set<Deportista>> jugadoresPorEquipo = DataSource.getJugadoresPorEquipo();
+    	Map<String, Set<Patrocinador>> sponsorsPorEquipo = DataSource.getSponsorsPorEquipo();
+    	
+    	for (Equipo equipo : equipos) {
+            LOGGER.info("Insertando equipo en la base de datos: " + equipo.getNombre());
+			// Insertar equipo
+    		equipoDAO.save(equipo);
+    		
+    		//Obtener jugadores por equipo
+    		Set<Jugador> jugadores = jugadoresPorEquipo.get(equipo.getNombre());
+    		
+    		//Obtener sponsors por equipo
+    		Set<Sponsor> sponsors = sponsorsPorEquipo.get(equipo.getNombre());
+    		
+    		//Insertar Jugadores
+    		for (Jugador jugador : jugadores) { 
+                LOGGER.info("Insertando jugador en la base de datos: " + jugador.getNombre());
+    			jugador.setEquipo(equipo);
+    			equipo.agregarJugador(jugador);
+
+    			if (jugador.getId() != null) {
+                    jugadorDAO.update(jugador);
+                    public static void cargarEquiposEnDB() {
+                        LOGGER.info("Iniciando carga de datos en la base de datos...");
+
+                    	List<Equipo> equipos = DataSourceEquipo.getEquipos();
+                    	Map<String, Set<Jugador>> jugadoresPorEquipo = DataSourceJugador.getJugadoresPorEquipo();
+                    	Map<String, Set<Sponsor>> sponsorsPorEquipo = DataSourceSponsor.getSponsorsPorEquipo();
+                    	EquipoDAO equipoDAO = new EquipoDAO();
+                    	JugadorDAO jugadorDAO = new JugadorDAO();    
+                    	SponsorDAO sponsorDAO = new SponsorDAO();
+                		CompeDAO compeDAO = new CompeDAO();
+                    	
+                        Competicion superLiga = new Competicion("SuperLiga", "01/02/2012", 9, 10);
+                        compeDAO.save(superLiga);
+                    	
+                    	for (Equipo equipo : equipos) {
+                            LOGGER.info("Insertando equipo en la base de datos: " + equipo.getNombre());
+                			// Insertar equipo
+                    		equipoDAO.save(equipo);
+                    		
+                    		//Obtener jugadores por equipo
+                    		Set<Jugador> jugadores = jugadoresPorEquipo.get(equipo.getNombre());
+                    		
+                    		//Obtener sponsors por equipo
+                    		Set<Sponsor> sponsors = sponsorsPorEquipo.get(equipo.getNombre());
+                    		
+                    		//Insertar Jugadores
+                    		for (Jugador jugador : jugadores) { 
+                                LOGGER.info("Insertando jugador en la base de datos: " + jugador.getNombre());
+                    			jugador.setEquipo(equipo);
+                    			equipo.agregarJugador(jugador);
+
+                    			if (jugador.getId() != null) {
+                                    jugadorDAO.update(jugador);
+                                    
+                                } else {
+                                    jugadorDAO.save(jugador);                
+                                }
+                    		} 		
+                    		for (Sponsor sponsor : sponsors) {   	
+                                LOGGER.info("Insertando sponsor en la base de datos: " + sponsor.getNombre());
+                    			sponsor.agregarEquipoPatrocinado(equipo);
+                    			equipo.agregarPatrocinador(sponsor);
+
+                                // Si el sponsor ya está en la base de datos, actualizar en lugar de guardar
+                                if (sponsor.getId() != null) {
+                                    sponsorDAO.update(sponsor);
+                                    
+                                } else {
+                                    sponsorDAO.save(sponsor);                    
+                                }            			
+                    		}    	
+                    		
+                    		equipoDAO.update(equipo);
+                    	}   	
+
+	}
+}
+
+

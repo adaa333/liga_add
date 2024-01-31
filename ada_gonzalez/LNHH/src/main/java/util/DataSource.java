@@ -25,6 +25,15 @@ public class DataSource {
 	public static Map<String, List<Deportista>> getDeportistas() {
 		return deportistas;
 	}
+	
+	public static List<Deportista> getNuevasIncorporaciones() {
+		return nuevasIncorporaciones;
+	}
+	
+	public static List<Patrocinador> getPatrocinadoresPorEquipo(Equipo equipo) {
+		
+		return patrocinadoresPorEquipo.get(equipo);
+	}
 
 	static List <Equipo> equipos= new ArrayList<Equipo>(Arrays.asList(	
 			new Equipo("Club Hielo Jaca Hockey", "Pabellón de Hielo de Jaca"),
@@ -104,7 +113,7 @@ public class DataSource {
             
         }};
         
-        private static List<Patrocinador> patrocinadores= new ArrayList<Patrocinador>(Arrays.asList(
+       /*private static List<Patrocinador> patrocinadores= new ArrayList<Patrocinador>(Arrays.asList(
         		new Patrocinador("Ambar", new ArrayList<Equipo>(Arrays.asList(equipos.get(0), equipos.get(3), equipos.get(5)))), 
         		new Patrocinador("Huesca la magia", new ArrayList<Equipo>(Arrays.asList(equipos.get(0)))),
         		new Patrocinador("Carrefour", new ArrayList<Equipo>(Arrays.asList(equipos.get(2), equipos.get(4), equipos.get(6)))),
@@ -126,5 +135,55 @@ public class DataSource {
         		new Patrocinador("Tecman", new ArrayList<Equipo>(Arrays.asList(equipos.get(6), equipos.get(2)))),
         		new Patrocinador("Conor VRC", new ArrayList<Equipo>(Arrays.asList(equipos.get(3), equipos.get(5))))
         		
+        		));*/
+        
+        static List<Deportista> nuevasIncorporaciones = new ArrayList<>(Arrays.asList(
+        		new Deportista("Lucía González", "28/05/1995", "Argentino", "ALA IZQUIERDA"),
+        		new Deportista("Javier López", "10/11/1998", "Mexicano", "DEFENSA DERECHA"),
+        		new Deportista("Aisha Patel", "03/09/1993", "Indio", "ALA DERECHA"),
+        		new Deportista("Olga Ivanova", "17/07/1990", "Ruso", "PORTERO"),
+        		new Deportista("Abdul Rahman", "22/03/1996", "Saudí", "CENTRO"),
+        		new Deportista("Carmen Rodríguez", "14/12/1997", "Español", "ALA IZQUIERDA"),
+        		new Deportista("Mateo Silva", "19/08/1994", "Uruguayo", "DEFENSA IZQUIERDA"),
+        		new Deportista("Airi Tanaka", "02/04/2000", "Japonés", "ALA DERECHA"),
+        		new Deportista("Mikhail Sokolov", "09/01/1992", "Ruso", "DEFENSA DERECHA"),
+        		new Deportista("Elena Martinez", "08/06/1999", "Español", "PORTERO")
+        		
         		));
+        
+        
+        private static List<Patrocinador> patrocinadores= new ArrayList<Patrocinador>(Arrays.asList(
+        		new Patrocinador("Ambar"), 
+        		new Patrocinador("Huesca la magia"),
+        		new Patrocinador("Carrefour"),
+        		new Patrocinador("LaPerla"),
+        		new Patrocinador("Mafesa"),
+        		new Patrocinador("Óptica 70"),
+        		new Patrocinador("Mantenimientos Chema"),
+        		new Patrocinador("Logroño Deporte"),
+        		new Patrocinador("Fabra Motor"),
+        		new Patrocinador("Campus Cerdania"),
+        		new Patrocinador("Arche"),
+        		new Patrocinador("Comunidad de Madrid"),
+        		new Patrocinador("Go Fit"),
+        		new Patrocinador("Bauer"),
+        		new Patrocinador("La Caixa"),
+        		new Patrocinador("Kosner"),
+        		new Patrocinador("Comantur"),
+        		new Patrocinador("Latasa"),
+        		new Patrocinador("Tecman"),
+        		new Patrocinador("Conor VRC")
+        		
+        		));
+        
+        @SuppressWarnings( "serial" )
+		static Map<Equipo, List<Patrocinador>> patrocinadoresPorEquipo = new HashMap<Equipo, List<Patrocinador>>() {{
+            put(equipos.get(0), Arrays.asList(patrocinadores.get(0), patrocinadores.get(1), patrocinadores.get(3), patrocinadores.get(4), patrocinadores.get(10), patrocinadores.get(15)));
+            put(equipos.get(1), Arrays.asList(patrocinadores.get(5), patrocinadores.get(6), patrocinadores.get(9), patrocinadores.get(13), patrocinadores.get(17)));
+            put(equipos.get(2), Arrays.asList(patrocinadores.get(2), patrocinadores.get(4), patrocinadores.get(8), patrocinadores.get(11), patrocinadores.get(14), patrocinadores.get(18)));
+            put(equipos.get(3), Arrays.asList(patrocinadores.get(5), patrocinadores.get(7), patrocinadores.get(10), patrocinadores.get(13), patrocinadores.get(19)));
+            put(equipos.get(4), Arrays.asList(patrocinadores.get(2), patrocinadores.get(8), patrocinadores.get(12), patrocinadores.get(16), patrocinadores.get(18)));
+            put(equipos.get(5), Arrays.asList(patrocinadores.get(0), patrocinadores.get(3), patrocinadores.get(9), patrocinadores.get(14), patrocinadores.get(19)));
+            put(equipos.get(6), Arrays.asList(patrocinadores.get(4), patrocinadores.get(7), patrocinadores.get(12), patrocinadores.get(16), patrocinadores.get(17), patrocinadores.get(18)));
+        }};
 }

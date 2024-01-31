@@ -10,7 +10,6 @@
 	<class>entities.Competicion</class>
     <class>entities.Deportista</class>
     <class>entities.Equipo</class>
-    <class>entities.Partido</class>
     <class>entities.Patrocinador</class>
 	
 		<properties>

@@ -1,0 +1,22 @@
+package util;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+
+public class FileReader {
+
+	
+	
+	public static String [] obtenerEnfrentamientos() {
+		String [] enfrentamientos;
+		File file= new File("calendario_liga//enfrentamientos.txt");
+		try(BufferedReader buffer= new BufferedReader(new Reader(file))){
+			enfrentamientos=buffer.readLine().split(" - ");
+		}catch (IOException io) {
+			System.err.println("Ocurrió un error al leer el fichero de enfrentamientos");
+		}
+		
+		return  enfrentamientos;
+	}
+}

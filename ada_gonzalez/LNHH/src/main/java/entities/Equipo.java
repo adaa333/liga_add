@@ -48,7 +48,7 @@ public class Equipo extends CRUD<Equipo>{
 	@Column (name="POINTS")
 	private int puntos;
 
-	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany (cascade = {CascadeType.PERSIST})
 	@JoinTable(
 	        name = "TEAM_SPONSOR",
 	        joinColumns = @JoinColumn(name = "TEAM_ID"),
@@ -59,12 +59,12 @@ public class Equipo extends CRUD<Equipo>{
 //getters & setters
 	
 	public void addPatrocinador(Patrocinador patrocinador) {
-	    Equipo equipoRecuperado=this.select(this.getId());
-    	if(!equipoRecuperado.getPatrocinadores().contains(patrocinador)) {
+    		
     		 patrocinadores.add(patrocinador);
-    		 //patrocinador.getEquipos().add(this);
-    		 this.update(this);
- 	    }
+    		 System.err.println(patrocinador.entityExists(patrocinador));
+    		 patrocinador.addEquipo(this);
+    		 //this.update(equipoRecuperado);
+ 	    
 	}
 	
 	public String getNombre() {
@@ -100,7 +100,7 @@ public class Equipo extends CRUD<Equipo>{
 	}
 	
 	public void addPartido(int puntos) {
-		jornadasJugadasEnTemporadaActual=jornadasJugadasEnTemporadaActual++;
+		jornadasJugadasEnTemporadaActual+=1;
 		setPuntos(getPuntos()+puntos);
 		this.update(this);
 	}
@@ -111,6 +111,8 @@ public class Equipo extends CRUD<Equipo>{
 		for (Deportista deportista: getJugadores()) {
 			deportista.setEquipoActual(this);
 		}
+		
+		this.update(this);
 	}
 	
 	public Set<Deportista> getJugadores() {
@@ -122,7 +124,10 @@ public class Equipo extends CRUD<Equipo>{
 		
 		for(Patrocinador patrocinador: patrocinadores) {
 			patrocinador.getEquipos().add(this);
+			patrocinador.update(patrocinador);
 		}
+		
+		this.update(this);
 		
 	}
 	
@@ -130,6 +135,10 @@ public class Equipo extends CRUD<Equipo>{
 		return patrocinadores;
 	}
 	
+	public void addJugador(Deportista jugador) {
+		this.jugadores.add(jugador);
+		this.update(this);
+	}
 	
 //constructor
 	
@@ -142,6 +151,11 @@ public class Equipo extends CRUD<Equipo>{
 	}
 	
 //DAO
+	@Override
+	public Class<Equipo> getEntityClass(){
+		return Equipo.class;
+	}
+	
 	public Equipo select(long id) {
 		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
 
@@ -152,7 +166,8 @@ public class Equipo extends CRUD<Equipo>{
 	        try {
 	            return (Equipo) query.getSingleResult();
 	        } catch (Exception e) {
-	            System.err.println("EXCEPCION");
+	            System.err.println("Ocurrió un error al buscar un equipo en la bbdd");
+	            e.printStackTrace();
 	            return null;
 	        }
 	}

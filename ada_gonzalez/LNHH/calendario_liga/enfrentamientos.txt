@@ -1,0 +1,1 @@
+1vs2 3vs4 5vs6 - 1vs3 2vs7 5vs4 - 1vs4 2vs6 3vs7 - 1vs6 2vs3 5vs7 - 1vs5 2vs4 7vs6 - 1vs7 3vs5 4vs6 - 2vs5 3vs6 4vs7

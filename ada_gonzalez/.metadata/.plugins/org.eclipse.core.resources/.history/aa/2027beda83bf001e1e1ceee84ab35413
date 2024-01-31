@@ -1,0 +1,85 @@
+package demo;
+
+import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import entities.Competicion;
+import entities.Equipo;
+import util.CargarDatos;
+import util.Reader;
+
+public class Simulacion {
+	
+	
+	
+	public static void cargarDatosEnDatabase(Competicion competicion) {
+		//competicion.insert(competicion);
+		CargarDatos.loadDataInDB();
+		//CargarDatos2.loadData();
+	}
+	
+	public static void simularTemporada2425(Competicion competicion) {
+		Equipo equipo =new Equipo();
+		List<Equipo> equiposDB=equipo.selectAll();
+		//inicio temporada
+		System.out.println("Inicio de la "+Competicion.getNombre()+" - (since "+Competicion.getFechaCreacion()+")");
+
+		String [] jornadas = Reader.obtenerEnfrentamientos();
+
+		for(int i=0; i<jornadas.length;i++) {//cambiar a 14
+			
+			//jornada1
+			System.out.println("::JORNADA["+(i+1)+"]::");
+			System.out.println(jornadas[i]);
+			String [] partidos=jornadas[0].split(" ");
+			//partidos de la jornada
+			for(int j=0;j<partidos.length;j++) {
+				String [] partido= partidos[j].split("vs");
+				long idEquipoLocal = (long) Integer.parseInt(partido[0]);
+				long idEquipoVisitante =(long) Integer.parseInt(partido[1]);
+				//-partido1
+				System.out.println(":::: PARTIDO "+(j+1)+" DE LA JORNADA["+(i+1)+"]::::");
+				Equipo equipoLocal= equipo.select(idEquipoLocal);
+				Equipo equipoVisitante= equipo.select(idEquipoVisitante);
+				
+				System.out.println(":::: - se enfrentan: "+equipoLocal.getNombre()+" y "+equipoVisitante.getNombre()+" en "+equipoLocal.getPista());
+				System.out.println(simularPartido(equipoLocal, equipoVisitante));		
+			}
+		
+		}
+	}
+
+	
+	public static String simularPartido(Equipo equipoLocal, Equipo equipoVisitante) {
+		Random rnd = new Random();
+		int ptosEquipoLocal=rnd.nextInt(4);
+		int ptosEquipoVisitante=0;
+		
+		switch(ptosEquipoLocal) {
+			case 0:
+				ptosEquipoVisitante=3;
+				break;
+			case 1:
+				ptosEquipoVisitante=2;
+				break;
+			case 2:
+				ptosEquipoVisitante=1;
+				break;
+			case 3:
+				ptosEquipoVisitante=0;
+				break;
+			}
+		equipoLocal.addPartido(ptosEquipoLocal);
+		equipoVisitante.addPartido(ptosEquipoVisitante);
+		
+		return ":::RESULTADO:::\n"+equipoLocal.getNombre()+":"+ptosEquipoLocal+"\n"+equipoVisitante.getNombre()+":"+ptosEquipoVisitante;
+		
+	}
+	
+	public static void simularAltas() {}
+	public static void simularBajas() {}
+	public static void simularFichajes() {}
+
+}

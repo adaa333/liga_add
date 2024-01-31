@@ -51,7 +51,7 @@ public class Patrocinador extends CRUD<Patrocinador>{
 	 	    }
 	}*/
 	
-	public Long getIdPatrocinador() {
+	public Long getId() {
 		return idPatrocinador;
 	}
 
@@ -79,12 +79,27 @@ public class Patrocinador extends CRUD<Patrocinador>{
 		this.name = name;
 		this.equipos=equipos;
 	}
+	
+	public Patrocinador(String name) {
+		this.name = name;
+	}
 
-public Patrocinador() {
+	public Patrocinador() {
 		// TODO Auto-generated constructor stub
+	}
+	
+	public void addEquipo(Equipo equipo) {
+		equipos.add(equipo);
+		//this.update(this);
 	}
 
 	//DAO
+	
+	@Override
+	public Class<Patrocinador> getEntityClass(){
+		return Patrocinador.class;
+	}
+	
 	public Patrocinador select(long id) {
 		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
 

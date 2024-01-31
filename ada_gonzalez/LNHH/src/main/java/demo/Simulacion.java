@@ -1,47 +1,69 @@
 package demo;
 
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import entities.Competicion;
+import entities.Deportista;
 import entities.Equipo;
 import util.CargarDatos;
+import util.DataSource;
+import util.Reader;
 
 public class Simulacion {
 	
-	private static List<Equipo> equiposDB=new ArrayList<Equipo>();
+	private static Competicion competicion;
+	
+	public static void setCompeticion(Competicion competicion) {
+		Simulacion.competicion = competicion;
+	}
+	public static Competicion getCompeticion() {
+		return competicion;
+	}
 	
 	
 	public static void cargarDatosEnDatabase(Competicion competicion) {
+		setCompeticion(competicion);
 		competicion.insert(competicion);
 		CargarDatos.loadDataInDB();
+		//CargarDatos2.loadData();
 	}
 	
 	public static void simularTemporada2425(Competicion competicion) {
-		List<Equipo> equiposDB=getEquiposDB();
+		Equipo equipo =new Equipo();
+		List<Equipo> equiposDB=equipo.selectAll();
 		//inicio temporada
-		System.out.println("Inicio de la "+Competicion.getNombre()+" - (since"+Competicion.getFechaCreacion()+")");
+		System.out.println("Inicio de la "+Competicion.getInstance().getNombre()+" - (since "+Competicion.getInstance().getFechaCreacion()+")");
 
-		for(int i=0; i<14;i++) {
+		String [] jornadas = Reader.obtenerEnfrentamientos();
+
+		for(int i=0; i<jornadas.length;i++) {//cambiar a 14
+			
 			//jornada1
 			System.out.println("::JORNADA["+(i+1)+"]::");
-			//-partido1
-			System.out.println("::::PRIMER PARTIDO DE LA JORNADA["+(i+1)+"]::::");	
-			
-			
-			
-			System.out.println("::::SEGUNDO PARTIDO DE LA JORNADA["+(i+1)+"]::::");	
-			
-			System.out.println("::::TERCER PARTIDO DE LA JORNADA["+(i+1)+"]::::");	
+			System.out.println(jornadas[i]);
+			String [] partidos=jornadas[i].split(" ");
+			//partidos de la jornada
+			for(int j=0;j<partidos.length;j++) {
+				String [] partido= partidos[j].split("vs");
+				long idEquipoLocal = (long) Integer.parseInt(partido[0]);
+				long idEquipoVisitante =(long) Integer.parseInt(partido[1]);
+				//-partido1
+				System.out.println(":::: PARTIDO "+(j+1)+" DE LA JORNADA["+(i+1)+"]::::");
+				Equipo equipoLocal= equipo.select(idEquipoLocal);
+				System.out.println("ID:"+equipoLocal.getId()+" - "+idEquipoLocal);
+				Equipo equipoVisitante= equipo.select(idEquipoVisitante);
+				
+				System.out.println(":::: - se enfrentan: "+equipoLocal.getNombre()+" y "+equipoVisitante.getNombre()+" en "+equipoLocal.getPista());
+				System.out.println(simularPartido(equipoLocal, equipoVisitante));	
+			}
 		}
 	}
 
-	public static List<Equipo> getEquiposDB() {
-		return equiposDB;
-	}
 	
-	public static void simularPartido(Equipo equipoLocal, Equipo equipoVisitante) {
+	public static String simularPartido(Equipo equipoLocal, Equipo equipoVisitante) {
 		Random rnd = new Random();
 		int ptosEquipoLocal=rnd.nextInt(4);
 		int ptosEquipoVisitante=0;
@@ -63,5 +85,43 @@ public class Simulacion {
 		equipoLocal.addPartido(ptosEquipoLocal);
 		equipoVisitante.addPartido(ptosEquipoVisitante);
 		
+		getCompeticion().addJornada();
+		
+		return ":::RESULTADO:::\n"+equipoLocal.getNombre()+":"+ptosEquipoLocal+"\n"+equipoVisitante.getNombre()+":"+ptosEquipoVisitante;
+		
 	}
+	
+	public static void simularAltas() {
+		for(Deportista jugador: DataSource.getNuevasIncorporaciones()) {
+			jugador.setNuevo(true);
+			
+			
+		}
+	}
+	
+	public static void simularBajas() {	
+		Equipo auxEquipo= new Equipo();
+		Deportista aux = new Deportista();
+		
+		List <Equipo> todosLosEquipos= auxEquipo.selectAll();
+		Random rnd= new Random();
+		int contador=0;
+		
+	
+		for(Equipo equipo: todosLosEquipos) {
+			while(contador!=2) {
+				for(Deportista deportista: equipo.getJugadores()) {
+					if(rnd.nextBoolean()) {
+						aux.delete(deportista);
+						contador+=1;
+					}
+				}
+			}
+		}		
+	}
+	
+	public static void simularFichajes() {
+		
+	}
+
 }

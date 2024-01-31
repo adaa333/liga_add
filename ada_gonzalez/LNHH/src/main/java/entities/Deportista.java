@@ -42,11 +42,22 @@ public class Deportista extends CRUD<Deportista>{
 	@Column (name="POSITION")
 	private String posicion;
 	
+	@Column (name="NEW_INCORPORATION")
+	private boolean nuevo=false;
+	
+	
 	@JoinColumn (name="current_team_number")
 	@ManyToOne (optional = false, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private Equipo equipoActual;
 	
 //getters & setters
+	
+	public void setNuevo(boolean nuevo) {
+		this.nuevo = nuevo;
+	}
+	public boolean isNuevo() {
+		return nuevo;
+	}
 	
 	public Long getId() {
 		return id;
@@ -114,7 +125,12 @@ public class Deportista extends CRUD<Deportista>{
 	public Deportista() {}
 
 //DAO
-
+	
+	@Override
+	public Class<Deportista> getEntityClass(){
+		return Deportista.class;
+	}
+	
 	public Deportista select(long id) {
 		EntityManager manager = Manager.getEntityManagerFactory().createEntityManager();
 		  String jpql = "SELECT d FROM Deportista d WHERE d.id = :id";

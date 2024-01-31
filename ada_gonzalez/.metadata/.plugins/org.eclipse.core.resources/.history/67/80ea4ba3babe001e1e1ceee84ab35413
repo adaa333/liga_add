@@ -1,0 +1,19 @@
+package util;
+
+import java.io.BufferedReader;
+import java.io.File;
+
+public class FileReader {
+
+	String [] enfrentamientos;
+	
+	public String [] obtenerEnfrentamientos() {
+		File file= new File("calendario_liga/enfrentamientos.txt");
+		
+		try(BufferedReader buffer= new BufferedReader(new FileReader(file))){
+			
+		}
+		
+		return 
+	}
+}
